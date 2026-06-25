@@ -1,0 +1,10 @@
+# --- AgentX (auto-generated, do not edit this block) ---
+# AgentX runtime state
+.agentx/
+# --- /AgentX ---
+
+node_modules
+.next
+.env*.local
+.vercel
+*.tsbuildinfo

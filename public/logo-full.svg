@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 300" fill="none">
+  <!-- Icon mark — scaled down to ~120px tall, positioned left -->
+  <g transform="translate(0, 20) scale(0.43)">
+    <!-- Vertical stem -->
+    <rect x="0" y="0" width="52" height="280" fill="#F5A623"/>
+    <!-- Bowl -->
+    <path d="M 0 0 H 130 C 200 0, 240 40, 240 82 C 240 130, 200 164, 130 164 H 52 Z" fill="#F5A623"/>
+    <!-- White counter -->
+    <path d="M 52 40 H 118 C 165 40, 196 58, 196 82 C 196 108, 165 124, 118 124 H 52 Z" fill="white"/>
+    <!-- Red top face -->
+    <polygon points="94,40 148,62 148,88 94,66" fill="#E8522A"/>
+    <!-- Teal right face -->
+    <polygon points="148,62 178,48 178,100 148,118" fill="#3DBFBF"/>
+    <!-- White front face -->
+    <polygon points="94,66 148,88 148,118 94,96" fill="white"/>
+  </g>
+
+  <!-- "Panelopia" wordmark -->
+  <text 
+    x="130" y="148" 
+    font-family="'DM Sans', -apple-system, sans-serif"
+    font-size="72"
+    font-weight="600"
+    letter-spacing="-2"
+    fill="#1A1814"
+  >Panelopia</text>
+
+  <!-- "LUXURY REDEFINED" tagline -->
+  <text
+    x="132" y="188"
+    font-family="'DM Sans', -apple-system, sans-serif"
+    font-size="22"
+    font-weight="500"
+    letter-spacing="8"
+    fill="#F5A623"
+  >LUXURY REDEFINED</text>
+</svg>

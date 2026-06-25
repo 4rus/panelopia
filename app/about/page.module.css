@@ -1,0 +1,305 @@
+.page {}
+
+.header {
+  background: var(--ink);
+  padding: calc(72px + var(--s10)) 0 var(--s10);
+}
+
+.pageTitle {
+  font-size: clamp(52px, 7vw, 96px);
+  font-weight: 300;
+  color: var(--white);
+  margin: var(--s2) 0;
+  line-height: 1.02;
+}
+
+.mission {
+  padding: var(--s12) 0;
+  background: var(--cream);
+}
+
+.missionInner {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: var(--s10);
+  align-items: start;
+}
+
+.missionTitle {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 2.5vw, 34px);
+  font-weight: 300;
+  color: var(--ink);
+  line-height: 1.35;
+  margin-bottom: var(--s5);
+}
+
+.missionBody {
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--ink-60);
+  margin-bottom: var(--s4);
+}
+
+.missionContact {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-top: var(--s3);
+}
+
+.missionPhone,
+.missionEmail {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--amber);
+  transition: text-decoration var(--duration-fast);
+  text-decoration: none;
+}
+
+.missionPhone:hover,
+.missionEmail:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.missionContactDiv {
+  width: 1px;
+  height: 16px;
+  background: var(--ink-10);
+}
+
+.missionStats {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s5);
+  padding-top: var(--s4);
+  border-top: 1px solid var(--ink-10);
+}
+
+.bigStat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.bigNum {
+  font-family: var(--font-display);
+  font-size: 56px;
+  font-weight: 300;
+  color: var(--ink);
+  line-height: 1;
+}
+
+.bigLabel {
+  font-size: 13px;
+  color: var(--ink-60);
+}
+
+.values {
+  background: var(--white);
+  padding: var(--s12) 0;
+  border-top: 1px solid var(--ink-10);
+  border-bottom: 1px solid var(--ink-10);
+}
+
+.valuesTitle {
+  font-size: clamp(36px, 4vw, 52px);
+  font-weight: 300;
+  color: var(--ink);
+  margin: var(--s2) 0 var(--s8);
+}
+
+.valuesGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+  background: var(--ink-10);
+  border: 1px solid var(--ink-10);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+
+.valueCard {
+  background: var(--white);
+  padding: var(--s6);
+  transition: background var(--duration-fast);
+}
+
+.valueCard:hover {
+  background: var(--cream);
+}
+
+.valueIcon {
+  display: block;
+  font-size: 22px;
+  color: var(--amber);
+  margin-bottom: var(--s3);
+}
+
+.valueTitle {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: var(--s2);
+  letter-spacing: -0.01em;
+}
+
+.valueDesc {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--ink-60);
+}
+
+.showrooms {
+  padding: var(--s12) 0;
+  background: var(--cream);
+}
+
+.showroomsTitle {
+  font-size: clamp(32px, 3.5vw, 48px);
+  font-weight: 300;
+  color: var(--ink);
+  margin: var(--s2) 0 var(--s8);
+}
+
+.showroomsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s4);
+}
+
+.showroom {
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  border: 1px solid var(--ink-10);
+  background: var(--white);
+}
+
+.showroomImgWrap {
+  position: relative;
+  height: 240px;
+  overflow: hidden;
+}
+
+.showroomImg {
+  object-fit: cover;
+  transition: transform 0.7s var(--ease-out);
+}
+
+.showroom:hover .showroomImg {
+  transform: scale(1.04);
+}
+
+.showroomInfo {
+  padding: var(--s4);
+}
+
+.showroomCity {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: var(--s2);
+}
+
+.showroomAddr {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--ink-60);
+  margin-bottom: var(--s2);
+}
+
+.showroomHours {
+  font-size: 12px;
+  color: var(--amber);
+  font-weight: 500;
+}
+
+/* Social */
+.social {
+  background: var(--white);
+  padding: var(--s8) 0;
+  border-top: 1px solid var(--ink-10);
+}
+
+.socialLabel {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-30);
+  margin-bottom: var(--s3);
+}
+
+.socialLinks {
+  display: flex;
+  gap: var(--s4);
+  flex-wrap: wrap;
+}
+
+.socialLink {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-60);
+  transition: color var(--duration-fast);
+  text-decoration: none;
+}
+
+.socialLink:hover {
+  color: var(--amber);
+}
+
+.cta {
+  background: var(--ink);
+  padding: var(--s12) 0;
+  text-align: center;
+}
+
+.ctaTitle {
+  font-size: clamp(36px, 4.5vw, 64px);
+  font-weight: 300;
+  color: var(--white);
+  margin-bottom: var(--s3);
+}
+
+.ctaDesc {
+  font-size: 16px;
+  color: rgba(250, 248, 244, 0.55);
+  margin-bottom: var(--s5);
+  line-height: 1.7;
+}
+
+.ctaActions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s4);
+  flex-wrap: wrap;
+}
+
+.ctaBtn {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+  background: var(--amber);
+  padding: 13px 26px;
+  border-radius: var(--r-md);
+  transition: background var(--duration-fast);
+}
+
+.ctaBtn:hover { background: var(--amber-light); }
+
+.ctaBtnSec {
+  font-size: 14px;
+  color: rgba(250, 248, 244, 0.6);
+  transition: color var(--duration-fast);
+}
+
+.ctaBtnSec:hover { color: var(--white); }
+
+@media (max-width: 900px) {
+  .missionInner { grid-template-columns: 1fr; }
+  .valuesGrid { grid-template-columns: 1fr; }
+  .showroomsGrid { grid-template-columns: 1fr; }
+}

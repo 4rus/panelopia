@@ -1,0 +1,369 @@
+/* ══════════════════════════════════════════════════
+   NAV  —  premium, minimal, architectural
+══════════════════════════════════════════════════ */
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  transition:
+    background 400ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 400ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── TRANSPARENT state (home, above fold) ─────── */
+.transparent {
+  background: transparent;
+}
+
+.transparent .navLink {
+  color: rgba(250, 248, 244, 0.70);
+}
+
+.transparent 
+.logoImgWrap {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* Constrain image logos to a sensible nav height */
+.logoImg {
+  object-fit: contain;
+  display: block;
+  max-height: 100%;
+  width: auto;
+}
+
+.logoText {
+  color: var(--white);
+}
+
+.transparent .bar {
+  background: var(--white);
+}
+
+.transparent .navLink:hover {
+  color: var(--white);
+  background: transparent;
+}
+
+.transparent .navLink:hover::after {
+  transform: scaleX(1);
+  opacity: 1;
+}
+
+/* Scrolled — cream glass */
+.transparent.scrolled {
+  background: rgba(250, 248, 244, 0.94);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  box-shadow: 0 1px 0 rgba(26, 24, 20, 0.07);
+}
+
+.transparent.scrolled .navLink {
+  color: var(--ink-60);
+}
+
+.transparent.scrolled 
+.logoImgWrap {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* Constrain image logos to a sensible nav height */
+.logoImg {
+  object-fit: contain;
+  display: block;
+}
+
+.logoText {
+  color: var(--ink);
+}
+
+.transparent.scrolled .bar {
+  background: var(--ink);
+}
+
+.transparent.scrolled .navLink:hover {
+  color: var(--ink);
+  background: transparent;
+}
+
+.transparent.scrolled .navLink:hover::after {
+  background: var(--amber);
+}
+
+/* ── SOLID state (all inner pages) ───────────── */
+.solid {
+  background: rgba(250, 248, 244, 0.94);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  box-shadow: 0 1px 0 rgba(26, 24, 20, 0.07);
+}
+
+.solid .navLink {
+  color: var(--ink-60);
+}
+
+.solid .navLink:hover {
+  color: var(--ink);
+  background: transparent;
+}
+
+.solid .navLink:hover::after {
+  transform: scaleX(1);
+  opacity: 1;
+  background: var(--amber);
+}
+
+/* ── INNER BAR ────────────────────────────────── */
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 88px;
+  padding: 0 clamp(20px, 3.5vw, 40px);
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* ── LOGO ─────────────────────────────────────── */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.logoImgWrap {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  height: 200px;
+}
+
+/* Constrain image logos to a sensible nav height */
+.logoImg {
+  object-fit: contain;
+  display: block;
+  max-height: 100%;
+  width: auto;
+}
+
+.logoText {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  transition: color 200ms ease;
+}
+
+/* ── NAV LINKS ────────────────────────────────── */
+.nav {
+  display: flex;
+  align-items: center;
+  /* Balanced spacing — not too tight, not too open */
+  gap: 2px;
+}
+
+.navLink {
+  position: relative;
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  padding: 8px 14px;
+  border-radius: 0;
+  transition: color 200ms ease;
+  white-space: nowrap;
+}
+
+/* Underline reveal — premium interaction */
+.navLink::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 14px;
+  right: 14px;
+  height: 1px;
+  background: rgba(250, 248, 244, 0.6);
+  transform: scaleX(0);
+  transform-origin: left;
+  opacity: 0;
+  transition:
+    transform 300ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 200ms ease;
+}
+
+.navLink.active {
+  color: var(--amber) !important;
+  font-weight: 500;
+}
+
+.navLink.active::after {
+  transform: scaleX(1);
+  opacity: 1;
+  background: var(--amber);
+}
+
+/* ── ACTIONS ──────────────────────────────────── */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+/* Get a Quote — amber pill */
+.cta {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: var(--amber);
+  padding: 10px 22px;
+  border-radius: 2px;
+  border: 1.5px solid var(--amber);
+  transition:
+    background 200ms ease,
+    color 200ms ease,
+    transform 200ms ease;
+}
+
+.cta:hover {
+  background: transparent;
+  color: var(--amber);
+  transform: translateY(-1px);
+}
+
+/* On transparent nav, the CTA border needs to show */
+.transparent:not(.scrolled) .cta {
+  color: var(--ink);
+}
+
+/* ── HAMBURGER ────────────────────────────────── */
+.menuToggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  padding: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.bar {
+  display: block;
+  width: 22px;
+  height: 1.5px;
+  background: var(--ink);
+  transition:
+    transform 350ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 200ms ease;
+  transform-origin: center;
+}
+
+.barOpen1 { transform: translateY(6.5px) rotate(45deg); }
+.barOpen2 { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* ── MOBILE FULL-SCREEN MENU ──────────────────── */
+.mobileMenu {
+  position: fixed;
+  inset: 0;
+  background: var(--cream);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--s8) clamp(24px, 6vw, 56px);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-12px);
+  transition:
+    opacity 350ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 350ms cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: -1;
+}
+
+.mobileMenuOpen {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(0);
+}
+
+.mobileLink {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s2);
+  font-family: var(--font-display);
+  font-size: clamp(34px, 8vw, 52px);
+  font-weight: 300;
+  color: var(--ink);
+  padding: 14px 0;
+  border-bottom: 1px solid var(--ink-10);
+  letter-spacing: -0.02em;
+  transition: color 200ms ease;
+}
+
+.mobileLink:hover {
+  color: var(--amber);
+}
+
+.mobileLinkNum {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--amber);
+  opacity: 0.8;
+}
+
+.mobileCta {
+  margin-top: var(--s5);
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: var(--amber);
+  padding: 14px 32px;
+  border-radius: 2px;
+  align-self: flex-start;
+  transition: background 200ms ease, transform 200ms ease;
+}
+
+.mobileCta:hover {
+  background: var(--amber-dark);
+  transform: translateY(-1px);
+}
+
+
+/* Mobile menu logo */
+.mobileLogo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: var(--s6);
+  font-family: var(--font-body);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+}
+
+@media (max-width: 900px) {
+  .nav  { display: none; }
+  .cta  { display: none; }
+  .menuToggle { display: flex; }
+}

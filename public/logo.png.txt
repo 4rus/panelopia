@@ -1,0 +1,15 @@
+LOGO PLACEHOLDER
+================
+Replace this file with your actual logo:
+
+1. Export your logo as /public/logo.png  (transparent background, recommended 200x60px or similar)
+   OR
+   Export as /public/logo.svg for best quality
+
+2. In components/layout/Nav.tsx, the <svg> block is already wrapped with a comment
+   showing exactly where to swap it.
+
+3. Same in components/layout/Footer.tsx
+
+Your CDN logo URL for reference:
+https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=375,fit=crop,q=95/mePJzJjp9Li61eNY/fulllogo_transparent_nobuffer-YZ9j1jNrl6sK1Qep.png

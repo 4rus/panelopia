@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 280" fill="none">
+  <!-- 
+    Panelopia P mark
+    Amber P: stem + bowl
+    Isometric box in counter: red top, teal right, white left (gap)
+  -->
+
+  <!-- AMBER P SHAPE -->
+  <!-- Vertical stem -->
+  <rect x="0" y="0" width="52" height="280" fill="#F5A623"/>
+  <!-- Bowl of P — full filled half-circle-ish shape -->
+  <!-- The bowl goes from top, arcs right, comes back to midpoint ~y=155 -->
+  <path d="
+    M 0 0
+    H 130
+    C 200 0, 240 40, 240 82
+    C 240 130, 200 164, 130 164
+    H 52
+    Z
+  " fill="#F5A623"/>
+
+  <!-- WHITE COUNTER CUT-OUT of P interior -->
+  <!-- This creates the negative space inside the P bowl -->
+  <path d="
+    M 52 40
+    H 118
+    C 165 40, 196 58, 196 82
+    C 196 108, 165 124, 118 124
+    H 52
+    Z
+  " fill="white"/>
+
+  <!-- ISOMETRIC BOX in the counter -->
+  <!-- Box apex is at approximately (94, 40) — top center of counter -->
+  <!-- Top face: red/coral rhombus -->
+  <polygon points="
+    94,40
+    148,62
+    148,88
+    94,66
+  " fill="#E8522A"/>
+
+  <!-- Right face: teal — follows the P bowl inner curve on right -->
+  <polygon points="
+    148,62
+    178,48
+    178,100
+    148,118
+  " fill="#3DBFBF"/>
+
+  <!-- Left/front face: white (this IS the counter gap, so no fill needed -->
+  <!-- The white counter already handles the left face -->
+  <!-- But we need a white face explicitly to cover any amber bleed -->
+  <polygon points="
+    94,66
+    148,88
+    148,118
+    94,96
+  " fill="white"/>
+</svg>
