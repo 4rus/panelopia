@@ -96,15 +96,19 @@ export default function Nav() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  useEffect(() => { setMenuOpen(false) }, [pathname])
+  useEffect(() => {
+  document.body.style.overflow = menuOpen ? 'hidden' : ''
+  return () => { document.body.style.overflow = '' }
+}, [menuOpen])
 
   const isHome = pathname === '/'
 
   return (
     <header className={[
-      styles.header,
-      isHome ? styles.transparent : styles.solid,
-      scrolled  ? styles.scrolled  : '',
+    styles.header,
+    isHome ? styles.transparent : styles.solid,
+    scrolled  ? styles.scrolled  : '',
+    menuOpen  ? styles.menuOpen  : '',   // NEW
     ].join(' ')}>
       <div className={styles.inner}>
 
