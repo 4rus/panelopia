@@ -25,12 +25,12 @@ export default function Footer() {
         <div className={styles.brand}>
           <div className={styles.logo}>
             <Image
-              src="/official_logo.png"
-              alt="Panelopia logo"
-              width={200}
-              height={80}
-              priority
-              className={styles.footerLogo}
+  src="/official_logo.png"
+  alt="Panelopia logo"
+  width={200}
+  height={160}
+  priority
+  className={styles.footerLogo}
             />
           </div>
           <p className={styles.desc}>

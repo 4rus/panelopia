@@ -1,6 +1,4 @@
-"use client";
-
-import { useState } from "react";
+import styles from "./WhatsAppFloat.module.css";
 
 // Panelopia client's WhatsApp Business number (no +, no dashes, no spaces)
 const WHATSAPP_NUMBER = "15874335187";
@@ -10,8 +8,6 @@ const PREFILLED_MESSAGE =
   "Hi there — I'd love to learn more about Panelopia's wall panels for my space.";
 
 export default function WhatsAppFloat() {
-  const [hovered, setHovered] = useState(false);
-
   const href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
     PREFILLED_MESSAGE
   )}`;
@@ -21,25 +17,16 @@ export default function WhatsAppFloat() {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
       aria-label="Chat with Panelopia on WhatsApp"
-      className="fixed bottom-5 right-5 z-50 flex items-center gap-2 rounded-full bg-[#25D366] px-4 py-3 shadow-lg shadow-black/30 transition-all duration-300 hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F5A623] focus-visible:ring-offset-2 focus-visible:ring-offset-[#1A1814]"
+      className={styles.button}
     >
-      <svg
-        viewBox="0 0 32 32"
-        className="h-7 w-7 flex-shrink-0 fill-white"
-        aria-hidden="true"
-      >
-        <path d="M16.04 2.67C8.6 2.67 2.6 8.66 2.6 16.1c0 2.62.74 5.07 2.02 7.16L2 30l6.92-2.55a13.4 13.4 0 0 0 7.12 2.04h.01c7.44 0 13.44-5.99 13.44-13.43 0-3.59-1.4-6.96-3.94-9.5a13.36 13.36 0 0 0-9.51-3.9Zm0 24.55h-.01a11.1 11.1 0 0 1-5.66-1.55l-.41-.24-4.1 1.51 1.53-3.99-.27-.41a11.08 11.08 0 0 1-1.71-5.94c0-6.14 5-11.14 11.15-11.14 2.98 0 5.78 1.16 7.89 3.27a11.06 11.06 0 0 1 3.26 7.88c0 6.14-5 11.14-11.14 11.14Zm6.1-8.34c-.33-.17-1.97-.97-2.28-1.08-.3-.11-.53-.17-.75.17-.22.33-.86 1.08-1.06 1.3-.2.22-.39.25-.72.08-1.95-.97-3.23-1.73-4.51-3.93-.34-.59.34-.55.97-1.83.11-.22.06-.41-.06-.58-.11-.17-.5-1.2-.69-1.66-.18-.44-.37-.38-.5-.39h-.43c-.15 0-.39.06-.6.28-.2.22-.78.76-.78 1.85s.8 2.16.91 2.31c.11.15 1.55 2.37 3.76 3.23 1.86.74 2.24.6 2.65.56.4-.04 1.29-.53 1.47-1.04.18-.5.18-.94.13-1.04-.06-.1-.22-.16-.55-.32Z" />
+      <svg viewBox="0 0 16 16" className={styles.icon} aria-hidden="true">
+        <path
+          fill="#ffffff"
+          d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"
+        />
       </svg>
-      <span
-        className={`overflow-hidden whitespace-nowrap text-sm font-medium text-white transition-all duration-300 ${
-          hovered ? "max-w-[140px] opacity-100" : "max-w-0 opacity-0"
-        }`}
-      >
-        Chat on WhatsApp
-      </span>
+      <span className={styles.label}>Chat on WhatsApp</span>
     </a>
   );
 }
