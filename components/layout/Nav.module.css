@@ -27,7 +27,7 @@
   display: flex;
   align-items: center;
   flex-shrink: 0;
-  height: 56px;   /* was 200px */
+  height: 100px;   /* was 200px */
 }
 
 /* Constrain image logos to a sensible nav height */
