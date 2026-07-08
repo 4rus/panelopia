@@ -569,10 +569,41 @@
 }
 
 @media (max-width: 600px) {
-  .hero { align-items: flex-end; padding-bottom: 56px; }
-  .heroContent { padding: 0 20px; padding-top: 100px; }
-  .trustBar { gap: 8px; margin-bottom: 20px; }
-  .trustItem { font-size: 10px; }
+  /* Previously: min-height:100vh + align-items:flex-end pinned all the
+     text to the very bottom edge of a full-screen-tall hero. On mobile
+     that reads as "crammed at the bottom" and pushes the CTAs just out
+     of view without scrolling. Centering the content in a slightly
+     shorter section (100svh accounts for the mobile browser's
+     collapsible address bar, unlike 100vh which overshoots) moves
+     everything up and gives it even breathing room top and bottom. */
+  .hero {
+    min-height: 100svh;
+    align-items: center;
+    padding-bottom: 0;
+  }
+  .heroContent { padding: 0 20px; padding-top: 0; }
+
+  /* Was: flex-wrap:wrap with an 8px gap meant for inline spacing —
+     but these phrases are too long to sit side by side on a phone,
+     so they wrapped onto their own lines anyway and just looked like
+     a cramped list. Making it an explicit vertical list with proper
+     spacing fixes the "squished together" look directly. */
+  .trustBar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  .trustItem { font-size: 11px; }
+
+  .heroTitle { margin-bottom: 18px; }
+
+  .heroSub {
+    font-size: 14px;
+    line-height: 1.7;
+    margin-bottom: 32px;
+  }
+
   .heroOverlay {
     background:
       linear-gradient(
@@ -583,7 +614,7 @@
         rgba(14, 11, 7, 0.90) 100%
       );
   }
-  .heroCtas { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .heroCtas { flex-direction: column; align-items: flex-start; gap: 12px; }
   .heroCta, .heroCtaOutline { width: 100%; justify-content: center; }
   .processGrid { grid-template-columns: 1fr; }
   .statsGrid { grid-template-columns: 1fr 1fr; }

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
@@ -88,7 +89,12 @@ function Logo() {
 export default function Nav() {
   const [scrolled, setScrolled]   = useState(false)
   const [menuOpen, setMenuOpen]   = useState(false)
+  const [mounted, setMounted]     = useState(false)   // NEW — portal needs document.body, client-only
   const pathname = usePathname()
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
@@ -97,18 +103,29 @@ export default function Nav() {
   }, [])
 
   useEffect(() => {
-  document.body.style.overflow = menuOpen ? 'hidden' : ''
-  return () => { document.body.style.overflow = '' }
-}, [menuOpen])
+    document.body.style.overflow = menuOpen ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [menuOpen])
+
+  // Close the mobile menu whenever the route changes.
+  // This is the fix: Nav lives in the root layout and never unmounts
+  // between pages, so without this, menuOpen stayed `true` after a
+  // link tap and the full-screen overlay kept sitting on top of
+  // (and fading into) the newly-navigated page underneath it.
+  useEffect(() => {
+    setMenuOpen(false)
+  }, [pathname])
 
   const isHome = pathname === '/'
+  const closeMenu = () => setMenuOpen(false)
 
   return (
+    <>
     <header className={[
     styles.header,
     isHome ? styles.transparent : styles.solid,
     scrolled  ? styles.scrolled  : '',
-    menuOpen  ? styles.menuOpen  : '',   // NEW
+    menuOpen  ? styles.menuOpen  : '',
     ].join(' ')}>
       <div className={styles.inner}>
 
@@ -146,11 +163,34 @@ export default function Nav() {
         </div>
       </div>
 
-      {/* ── Mobile full-screen menu ── */}
+    </header>
+
+    {/* ── Mobile full-screen menu ──────────────────────────────
+        Rendered through a portal directly onto <body>, NOT nested
+        inside <header>. This is the actual fix: .header gets
+        backdrop-filter in its .solid / .transparent.scrolled states,
+        and backdrop-filter on an ancestor creates a new containing
+        block for any position:fixed descendant. That silently
+        shrank this menu's "fixed, inset:0" box down to the header's
+        own 88px height instead of the full viewport — which is why
+        it broke specifically on inner pages and once you scrolled,
+        but looked fine on an unscrolled home page. Portaling to
+        <body> means there's no filtered ancestor to break it,
+        on any page, in any scroll state. ── */}
+    {mounted && createPortal(
       <div
         className={`${styles.mobileMenu} ${menuOpen ? styles.mobileMenuOpen : ''}`}
         aria-hidden={!menuOpen}
       >
+        <button
+          className={styles.mobileMenuClose}
+          onClick={closeMenu}
+          aria-label="Close menu"
+        >
+          <span className={styles.closeBar} />
+          <span className={styles.closeBar} />
+        </button>
+
         <div className={styles.mobileLogo}>
           <Logo />
           <span>Panelopia</span>
@@ -161,13 +201,18 @@ export default function Nav() {
             href={link.href}
             className={styles.mobileLink}
             style={{ animationDelay: `${i * 55}ms` }}
+            onClick={closeMenu}
           >
             <span className={styles.mobileLinkNum}>0{i + 1}</span>
             {link.label}
           </Link>
         ))}
-        <Link href="/contact" className={styles.mobileCta}>Get a Quote</Link>
-      </div>
-    </header>
+        <Link href="/contact" className={styles.mobileCta} onClick={closeMenu}>
+          Get a Quote
+        </Link>
+      </div>,
+      document.body
+    )}
+    </>
   )
 }

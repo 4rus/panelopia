@@ -220,7 +220,7 @@
   gap: 12px;
   flex-shrink: 0;
   position: relative;
-  z-index: 20;         /* NEW — keeps the toggle above the overlay */
+  z-index: 20;         /* keeps the toggle above the overlay */
 }
 
 .menuOpen .bar {
@@ -283,6 +283,17 @@
 .barOpen2 { transform: translateY(-6.5px) rotate(-45deg); }
 
 /* ── MOBILE FULL-SCREEN MENU ──────────────────── */
+/* NOTE: this element is now rendered via a React portal directly onto
+   <body> (see Nav.tsx) instead of nested inside <header>. That was the
+   actual bug fix — .header carries backdrop-filter in its .solid and
+   .transparent.scrolled states, and backdrop-filter on an ancestor
+   creates a new containing block for any position:fixed descendant,
+   which was silently shrinking this menu down to the header's own
+   88px height instead of the full viewport. Now that it's a direct
+   child of <body>, its z-index just needs to be high enough to beat
+   any other fixed/floating elements on the page (e.g. a WhatsApp
+   float button), rather than relying on being nested inside .header
+   (z-index 100) — so it's bumped up to 200 here. */
 .mobileMenu {
   position: fixed;
   inset: 0;
@@ -297,13 +308,55 @@
   transition:
     opacity 350ms cubic-bezier(0.16, 1, 0.3, 1),
     transform 350ms cubic-bezier(0.16, 1, 0.3, 1);
-  z-index: 10;         /* was -1 */
+  z-index: 200;         /* was 10 — now portaled to <body>, must beat other fixed widgets */
 }
 
 .mobileMenuOpen {
   opacity: 1;
   pointer-events: all;
   transform: translateY(0);
+}
+
+/* Close (✕) button inside the mobile menu itself — needed because the
+   menu now sits (z-index 200) above .header (z-index 100), so the
+   header's own hamburger/✕ toggle is covered while the menu is open. */
+.mobileMenuClose {
+  position: absolute;
+  top: clamp(20px, 4vw, 32px);
+  right: clamp(20px, 6vw, 40px);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.closeBar {
+  position: absolute;
+  width: 22px;
+  height: 1.5px;
+  background: var(--ink);
+  transition:
+    transform 350ms cubic-bezier(0.16, 1, 0.3, 1),
+    background 200ms ease;
+}
+
+/* Closed / resting state — two short parallel lines, like a mini hamburger */
+.closeBar:nth-child(1) { transform: translateY(-4px); }
+.closeBar:nth-child(2) { transform: translateY(4px); }
+
+/* Open state — lines slide together and rotate into an X.
+   Same timing/easing as the header's .barOpen1 / .barOpen2 so the
+   motion feels consistent with the rest of the nav. */
+.mobileMenuOpen .closeBar:nth-child(1) { transform: translateY(0) rotate(45deg); }
+.mobileMenuOpen .closeBar:nth-child(2) { transform: translateY(0) rotate(-45deg); }
+
+.mobileMenuClose:hover .closeBar {
+  background: var(--amber);
 }
 
 .mobileLink {
