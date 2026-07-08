@@ -62,7 +62,7 @@ export default function HomePage() {
       <section className={styles.hero}>
         <div className={styles.heroBg}>
           <Image
-            src="/images/HeroImageNew.jpg"
+            src="/images/heroImageNew.jpg"
             alt="Panelopia showroom featuring WPC slat wall panels"
             fill
             priority

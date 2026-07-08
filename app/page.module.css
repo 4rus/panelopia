@@ -100,7 +100,7 @@
 
 .heroTitle {
   font-family: var(--font-display);
-  font-size: clamp(40px, 5.5vw, 76px);
+  font-size: clamp(36px, 4.2vw, 60px);
   font-weight: 300;
   line-height: 1.08;
   letter-spacing: -0.03em;
@@ -262,7 +262,7 @@
 .categoryCard {
   position: relative;
   background: var(--white);
-  padding: var(--s6) var(--s5);
+  padding: var(--s6) var(--s2);
   display: flex;
   flex: 1;
   gap: var(--s4);
@@ -284,7 +284,12 @@
   padding-top: 4px;
 }
 
-.categoryInner { flex: 1; }
+.categoryInner {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
 
 .categoryTitle {
   font-family: var(--font-display);
@@ -304,6 +309,8 @@
 .categoryArrow {
   font-size: 18px;
   display: block;
+  margin-top: auto;
+  padding-top: var(--s3);
   transition: transform var(--duration-base) var(--ease-out);
 }
 

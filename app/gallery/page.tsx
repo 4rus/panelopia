@@ -89,6 +89,7 @@ const accentColors: Record<string, string> = {
 
 export default function GalleryPage() {
   const [active, setActive] = useState('All')
+  const [selected, setSelected] = useState<typeof projects[number] | null>(null)
 
   const filtered = active === 'All' ? projects : projects.filter(p => p.category === active)
 
@@ -126,7 +127,16 @@ export default function GalleryPage() {
 
           <div className={styles.grid}>
             {filtered.map((project) => (
-              <div key={project.id} className={`${styles.card} ${styles[`size-${project.size}`]}`}>
+              <div
+                key={project.id}
+                className={`${styles.card} ${styles[`size-${project.size}`]}`}
+                onClick={() => setSelected(project)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') setSelected(project)
+                }}
+              >
                 <div className={styles.cardImage}>
                   <Image
                     src={project.src}
@@ -164,6 +174,39 @@ export default function GalleryPage() {
           </div>
         </div>
       </div>
+
+      {selected && (
+        <div
+          className={styles.lightbox}
+          onClick={() => setSelected(null)}
+          role="dialog"
+          aria-modal="true"
+        >
+          <button
+            className={styles.lightboxClose}
+            onClick={() => setSelected(null)}
+            aria-label="Close"
+          >
+            ×
+          </button>
+          <div className={styles.lightboxContent} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.lightboxImageWrap}>
+              <Image
+                src={selected.src}
+                alt={selected.title}
+                fill
+                className={styles.lightboxImg}
+                sizes="90vw"
+                priority
+              />
+            </div>
+            <div className={styles.lightboxInfo}>
+              <h3>{selected.title}</h3>
+              <p>{selected.location} · {selected.product}</p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

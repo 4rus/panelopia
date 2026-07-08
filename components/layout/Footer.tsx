@@ -97,7 +97,7 @@ export default function Footer() {
       </div>
 
       <div className={styles.bottom}>
-        <span>© 2025 Panelopia Inc. All rights reserved.</span>
+        <span>© 2026 Panelopia Inc. All rights reserved.</span>
         <div className={styles.bottomLinks}>
           <Link href="/policies" className={styles.bottomLink}>Privacy Policy</Link>
           <Link href="/tandc" className={styles.bottomLink}>Terms &amp; Conditions</Link>
