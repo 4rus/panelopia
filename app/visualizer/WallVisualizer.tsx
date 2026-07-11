@@ -33,7 +33,7 @@ const ROOMS: RoomOption[] = [
     },
   },
   {
-    label: "Bedroom",
+    label: "Office",
     src: "/images/Bed-Room1.jpg",
     wallCorners: {
       tl: { x: 0.20, y: 0.04 },
@@ -43,7 +43,7 @@ const ROOMS: RoomOption[] = [
     },
   },
   {
-    label: "Office",
+    label: "Bedroom",
     src: "/images/Living-Room2.jpg",
     wallCorners: {
       tl: { x: 0.28, y: 0.04 },

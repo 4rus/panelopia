@@ -1,5 +1,3 @@
-.page {}
-
 .header {
   background: var(--ink);
   padding: calc(72px + var(--s8)) 0 var(--s8);
