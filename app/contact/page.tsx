@@ -31,6 +31,29 @@ const products = ['Wall Panels', 'Marble Slabs', 'Acoustic Panels', 'Wallpapers'
 const projectTypes = ['Residential', 'Commercial', 'Hospitality', 'Office', 'Other']
 const budgets = ['Under $5,000', '$5,000–$15,000', '$15,000–$50,000', '$50,000+', 'Not sure yet']
 
+function ShowroomHours() {
+  return (
+    <div className={styles.hours}>
+      <div className={styles.hoursHeader}>
+        <svg className={styles.hoursIcon} width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <circle cx="12" cy="12" r="10" />
+          <path d="M12 6v6l4 2" />
+        </svg>
+        Hours
+      </div>
+      <div className={styles.hoursRow}>
+        <span>Thu – Mon</span>
+        <span>11am – 7pm</span>
+      </div>
+      <div className={styles.hoursNote}>(Sun until 6pm)</div>
+      <div className={`${styles.hoursRow} ${styles.hoursClosed}`}>
+        <span>Tue – Wed</span>
+        <span>Closed</span>
+      </div>
+    </div>
+  )
+}
+
 export default function ContactPage() {
   const [form, setForm] = useState<FormData>(initialForm)
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
@@ -257,14 +280,22 @@ export default function ContactPage() {
             <div className={styles.info}>
               <div className={styles.infoBlock}>
                 <h3 className={styles.infoTitle}>Calgary Showroom</h3>
-                <p className={styles.infoText}>123 Macleod Trail SE<br />Calgary, AB T2G 0A0</p>
-                <p className={styles.infoText}>Mon–Fri 9am–5pm<br />Sat 10am–3pm</p>
+                <p className={styles.infoAddress}>
+                  New Horizon Mall, 260300 Writing Creek Cres<br />
+                  Unit G-02, Balzac, AB T4A 0X8
+                </p>
+                <div className={styles.hoursDivider} />
+                <ShowroomHours />
               </div>
 
               <div className={styles.infoBlock}>
                 <h3 className={styles.infoTitle}>Edmonton Showroom</h3>
-                <p className={styles.infoText}>456 Jasper Ave NW<br />Edmonton, AB T5J 1S9</p>
-                <p className={styles.infoText}>Mon–Fri 9am–5pm<br />Sat 10am–3pm</p>
+                <p className={styles.infoAddress}>
+                  65 St, Beaumont, AB<br />
+                  T4X 0G7
+                </p>
+                <div className={styles.hoursDivider} />
+                <ShowroomHours />
               </div>
 
               <div className={styles.infoBlock}>
