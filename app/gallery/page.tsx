@@ -1,97 +1,64 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Image from 'next/image'
 import styles from './page.module.css'
 
-const filters = ['All', 'Wall Panels', 'Wallpapers', 'Showroom']
+type Size = 'large' | 'medium' | 'small'
 
-const projects = [
-  {
-    id: 1,
-    title: 'Entryway Feature Wall',
-    location: 'Calgary, AB',
-    category: 'Wall Panels',
-    product: 'Oak WPC Slat Panel',
-    src: '/images/entryway-slat.jpg',
-    size: 'large',
-  },
-  {
-    id: 2,
-    title: 'Living Room Fireplace',
-    location: 'Calgary, AB',
-    category: 'Wallpapers',
-    product: 'Leaf Pattern Wallpaper + WPC Slat',
-    src: '/images/fireplace-wallpaper.jpg',
-    size: 'small',
-  },
-  {
-    id: 3,
-    title: 'Media Wall',
-    location: 'Edmonton, AB',
-    category: 'Wall Panels',
-    product: 'Charcoal WPC Slat Panel',
-    src: '/images/dark-slat-fireplace.jpg',
-    size: 'small',
-  },
-  {
-    id: 4,
-    title: 'Hallway Accent Wall',
-    location: 'Calgary, AB',
-    category: 'Wall Panels',
-    product: 'Black WPC Slat Panel',
-    src: '/images/black-slat-mirror.jpg',
-    size: 'medium',
-  },
-  {
-    id: 5,
-    title: 'Office Reception',
-    location: 'Edmonton, AB',
-    category: 'Wallpapers',
-    product: 'Textured Wallpaper + WPC Slat with LED',
-    src: '/images/office-slat-wallpaper.jpg',
-    size: 'medium',
-  },
-  {
-    id: 6,
-    title: 'Showroom — Calgary',
-    location: 'New Horizon Mall, Balzac, AB',
-    category: 'Showroom',
-    product: 'WPC Slat + Brick Panel Display',
-    src: '/images/showroom-main.jpg',
-    size: 'large',
-  },
-  {
-    id: 7,
-    title: 'Showroom Kitchen Display',
-    location: 'New Horizon Mall, Balzac, AB',
-    category: 'Showroom',
-    product: 'Grasscloth Wallpaper + WPC Slat Shelving',
-    src: '/images/showroom-kitchen.jpg',
-    size: 'small',
-  },
-  {
-    id: 8,
-    title: 'Showroom Slat Shelf Wall',
-    location: 'New Horizon Mall, Balzac, AB',
-    category: 'Showroom',
-    product: 'Oak WPC Slat Panel — close detail',
-    src: '/images/showroom-slat-shelf.jpg',
-    size: 'small',
-  },
+const projects: { id: number; src: string; size: Size }[] = [
+  { id: 1, src: '/images/entryway-slat.jpg', size: 'large' },
+  { id: 2, src: '/images/fireplace-wallpaper.jpg', size: 'small' },
+  { id: 3, src: '/images/dark-slat-fireplace.jpg', size: 'small' },
+  { id: 4, src: '/images/black-slat-mirror.jpg', size: 'medium' },
+  { id: 5, src: '/images/office-slat-wallpaper.jpg', size: 'medium' },
+  { id: 6, src: '/images/showroom-main.jpg', size: 'large' },
+  { id: 7, src: '/images/showroom-kitchen.jpg', size: 'small' },
+  { id: 8, src: '/images/showroom-slat-shelf.jpg', size: 'small' },
+  { id: 9, src: '/images/DSCF2774 (2025-09-13T22_06_54.168).webp', size: 'medium' },
+  { id: 10, src: '/images/DSCF2780 (2025-09-13T22_09_54.493).webp', size: 'small' },
+  { id: 11, src: '/images/IMG_3762 (2025-10-13T05_46_24.008).webp', size: 'small' },
+  { id: 12, src: '/images/IMG_3861 (2025-10-13T05_47_38.731).webp', size: 'large' },
+  { id: 13, src: '/images/IMG_3912 (2025-10-13T05_48_12.069).webp', size: 'medium' },
+  { id: 14, src: '/images/IMG_7971.webp', size: 'small' },
+  { id: 15, src: '/images/IMG_8312.webp', size: 'small' },
+  { id: 16, src: '/images/IMG-20240609-WA0092.webp', size: 'medium' },
+  { id: 17, src: '/images/IMG-20240609-WA0163.webp', size: 'small' },
+  { id: 18, src: '/images/IMG-20240609-WA0175.webp', size: 'small' },
+  { id: 19, src: '/images/IMG-20250810-WA0012.webp', size: 'large' },
+  { id: 20, src: '/images/IMG-20250919-WA0015.webp', size: 'medium' },
+  { id: 21, src: '/images/IMG-20250919-WA0017.webp', size: 'small' },
+  { id: 22, src: '/images/IMG-20250919-WA0018.webp', size: 'small' },
+  { id: 23, src: '/images/IMG_1525 (2025-07-31T16_47_24.073).webp', size: 'medium' },
+  { id: 24, src: '/images/IMG_2008 (2025-02-04T07_25_28.524).webp', size: 'small' },
+  { id: 25, src: '/images/IMG_2014 (2025-02-04T07_25_33.524).webp', size: 'small' },
+  { id: 26, src: '/images/IMG_2159.webp', size: 'large' },
+  { id: 27, src: '/images/IMG_2471.webp', size: 'medium' },
 ]
 
-const accentColors: Record<string, string> = {
-  'Wall Panels': '#F5A623',
-  'Wallpapers': '#3DBFBF',
-  'Showroom': '#E8522A',
-}
-
 export default function GalleryPage() {
-  const [active, setActive] = useState('All')
-  const [selected, setSelected] = useState<typeof projects[number] | null>(null)
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
 
-  const filtered = active === 'All' ? projects : projects.filter(p => p.category === active)
+  const close = useCallback(() => setSelectedIndex(null), [])
+  const showPrev = useCallback(() => {
+    setSelectedIndex((i) => (i === null ? null : (i - 1 + projects.length) % projects.length))
+  }, [])
+  const showNext = useCallback(() => {
+    setSelectedIndex((i) => (i === null ? null : (i + 1) % projects.length))
+  }, [])
+
+  useEffect(() => {
+    if (selectedIndex === null) return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') close()
+      if (e.key === 'ArrowLeft') showPrev()
+      if (e.key === 'ArrowRight') showNext()
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [selectedIndex, close, showPrev, showNext])
+
+  const selected = selectedIndex !== null ? projects[selectedIndex] : null
 
   return (
     <div className={styles.page}>
@@ -100,68 +67,50 @@ export default function GalleryPage() {
           <p className="eyebrow">Portfolio</p>
           <h1 className={styles.pageTitle}>Design Ideas</h1>
           <p className={styles.pageDesc}>
-            Installed projects across Calgary and Edmonton. Every photo is a real Panelopia installation.
+            A look at real Panelopia installations across our showroom and client spaces.
           </p>
         </div>
       </div>
 
       <div className={styles.main}>
         <div className="container">
-          <div className={styles.filters} role="tablist">
-            {filters.map((f) => (
-              <button
-                key={f}
-                role="tab"
-                aria-selected={active === f}
-                className={`${styles.filter} ${active === f ? styles.filterActive : ''}`}
-                onClick={() => setActive(f)}
-              >
-                {f}
-              </button>
-            ))}
-          </div>
-
           <p className={styles.count}>
-            <span>{filtered.length}</span> {filtered.length === 1 ? 'project' : 'projects'}
+            <span>{projects.length}</span> photos
           </p>
 
           <div className={styles.grid}>
-            {filtered.map((project) => (
+            {projects.map((project, index) => (
               <div
                 key={project.id}
                 className={`${styles.card} ${styles[`size-${project.size}`]}`}
-                onClick={() => setSelected(project)}
+                style={{ animationDelay: `${Math.min(index * 40, 480)}ms` }}
+                onClick={() => setSelectedIndex(index)}
                 role="button"
                 tabIndex={0}
                 onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') setSelected(project)
+                  if (e.key === 'Enter' || e.key === ' ') setSelectedIndex(index)
                 }}
               >
                 <div className={styles.cardImage}>
                   <Image
                     src={project.src}
-                    alt={project.title}
+                    alt={`Panelopia installation ${index + 1}`}
                     fill
                     className={styles.cardImg}
                     sizes="(max-width:600px) 100vw, (max-width:900px) 50vw, 33vw"
                   />
                   <div className={styles.cardOverlay} />
-                  <div
-                    className={styles.cardTag}
-                    style={{
-                      background: accentColors[project.category] + '22',
-                      color: accentColors[project.category],
-                    }}
-                  >
-                    {project.category}
-                  </div>
-                </div>
-                <div className={styles.cardBody}>
-                  <h3 className={styles.cardTitle}>{project.title}</h3>
-                  <div className={styles.cardMeta}>
-                    <span>{project.location}</span>
-                    <span className={styles.cardDot} />
-                    <span className={styles.cardProduct}>{project.product}</span>
+                  <span className={styles.cardIndex}>{String(index + 1).padStart(2, '0')}</span>
+                  <div className={styles.cardExpand}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                      <path
+                        d="M9 3H3v6M15 3h6v6M9 21H3v-6M15 21h6v-6"
+                        stroke="currentColor"
+                        strokeWidth="1.8"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
                   </div>
                 </div>
               </div>
@@ -176,24 +125,31 @@ export default function GalleryPage() {
       </div>
 
       {selected && (
-        <div
-          className={styles.lightbox}
-          onClick={() => setSelected(null)}
-          role="dialog"
-          aria-modal="true"
-        >
-          <button
-            className={styles.lightboxClose}
-            onClick={() => setSelected(null)}
-            aria-label="Close"
-          >
+        <div className={styles.lightbox} onClick={close} role="dialog" aria-modal="true">
+          <button className={styles.lightboxClose} onClick={close} aria-label="Close">
             ×
           </button>
+
+          <button
+            className={`${styles.lightboxNav} ${styles.lightboxNavPrev}`}
+            onClick={(e) => { e.stopPropagation(); showPrev() }}
+            aria-label="Previous image"
+          >
+            ‹
+          </button>
+          <button
+            className={`${styles.lightboxNav} ${styles.lightboxNavNext}`}
+            onClick={(e) => { e.stopPropagation(); showNext() }}
+            aria-label="Next image"
+          >
+            ›
+          </button>
+
           <div className={styles.lightboxContent} onClick={(e) => e.stopPropagation()}>
             <div className={styles.lightboxImageWrap}>
               <Image
                 src={selected.src}
-                alt={selected.title}
+                alt={`Panelopia installation ${selectedIndex! + 1}`}
                 fill
                 className={styles.lightboxImg}
                 sizes="90vw"
@@ -201,8 +157,7 @@ export default function GalleryPage() {
               />
             </div>
             <div className={styles.lightboxInfo}>
-              <h3>{selected.title}</h3>
-              <p>{selected.location} · {selected.product}</p>
+              {String(selectedIndex! + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
             </div>
           </div>
         </div>

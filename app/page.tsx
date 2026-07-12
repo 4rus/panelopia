@@ -245,7 +245,7 @@ export default function HomePage() {
               </h2>
               <p className={styles.visualizerSub}>
                 Upload a photo of your room. Choose from our full catalogue. Adjust coverage
-                and opacity. Share the preview with your designer — all in under two minutes.
+                and size. Share the preview with us — all in under two minutes.
               </p>
               <div className={styles.visualizerCtas}>
                 <Link href="/visualizer" className={styles.visualizerCta}>
@@ -268,7 +268,7 @@ export default function HomePage() {
                 </div>
                 <div className={styles.demoChrome}>
                   <div className={styles.demoChromeDot} />
-                  <span>Live Preview · Leaf Pattern Wallpaper</span>
+                  <span>Live Preview</span>
                 </div>
               </div>
             </div>
