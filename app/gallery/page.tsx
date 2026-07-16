@@ -57,7 +57,7 @@ export default function GalleryPage() {
       <div className={styles.header}>
         <div className="container">
           <p className="eyebrow">Portfolio</p>
-          <h1 className={styles.pageTitle}>Design Ideas</h1>
+          <h1 className={styles.pageTitle}>Our Projects</h1>
           <p className={styles.pageDesc}>
             A look at real Panelopia installations across our showroom and client spaces.
           </p>

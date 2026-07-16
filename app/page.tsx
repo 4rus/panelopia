@@ -3,7 +3,7 @@ import Image from 'next/image'
 import styles from './page.module.css'
 
 const stats = [
-  { value: '50+', label: 'Projects completed' },
+  { value: '1200+', label: 'Projects completed' },
   { value: '3+', label: 'Years in Alberta' },
   { value: '50+', label: 'Panel collections' },
   { value: '2', label: 'Showrooms' },
@@ -77,10 +77,10 @@ export default function HomePage() {
           <div className={styles.trustBar}>
             <span className={styles.trustItem}>
               <span className={styles.trustDot} />
-              Calgary &amp; Edmonton Showrooms
+              Serving Greater Calgary Area
             </span>
             <span className={styles.trustDivider} />
-            <span className={styles.trustItem}>Supply &amp; Installation Included</span>
+            <span className={styles.trustItem}>Supply &amp; Installation Available</span>
             <span className={styles.trustDivider} />
             <span className={styles.trustItem}>Trusted by Homeowners &amp; Designers</span>
           </div>
@@ -251,7 +251,6 @@ export default function HomePage() {
                 <Link href="/visualizer" className={styles.visualizerCta}>
                   Open the Visualizer
                 </Link>
-                <span className={styles.visualizerNote}>Free — no account needed</span>
               </div>
             </div>
             <div className={styles.visualizerDemo}>

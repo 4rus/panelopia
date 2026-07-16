@@ -9,7 +9,7 @@ import styles from './Nav.module.css'
 
 const links = [
   { href: '/products',   label: 'Products' },
-  { href: '/gallery',    label: 'Design Ideas' },
+  { href: '/gallery',    label: 'Gallery' },
   { href: '/visualizer', label: 'Visualizer' },
   { href: '/about',      label: 'About' },
   { href: '/contact',    label: 'Contact' },
@@ -26,8 +26,8 @@ const LOGO = {
   // 4. Set useSvgFallback to false
   //
   imageSrc:       '/official_logo.png',       // ← use the official PNG logo file
-  imageWidth:     260,               // set to the logo file's typical width
-  imageHeight:    96,                // set to the logo file's typical height
+  imageWidth:     302,               // set to the logo file's typical width
+  imageHeight:    126,                // set to the logo file's typical height  
   imageAlt:       'Panelopia logo',
   quality:        100,               // set to 100 for best quality (especially for PNG logos)
 

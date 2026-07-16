@@ -22,30 +22,89 @@
   margin-bottom: var(--s5);
 }
 
-/* Quick anchor nav */
-.quickNav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
+/* Category dropdown */
+.categoryDropdownWrap {
+  margin-bottom: var(--s4);
 }
 
-.quickNavLink {
+.categorySelect {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--white);
+  background: rgba(250,248,244,0.06);
+  border: 1px solid rgba(250,248,244,0.16);
+  border-radius: 8px;
+  padding: 10px 14px;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 180ms, background 180ms;
+  max-width: 260px;
+  width: 100%;
+}
+
+.categorySelect:hover,
+.categorySelect:focus {
+  border-color: rgba(245,166,35,0.5);
+  background: rgba(245,166,35,0.06);
+}
+
+.categorySelect option {
+  background: var(--ink);
+  color: var(--white);
+}
+
+/* Collection image cards */
+.quickNav {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
+}
+
+.quickNavCard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-decoration: none;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 180ms ease;
+}
+
+.quickNavCard:hover {
+  transform: translateY(-3px);
+}
+
+.quickNavImgWrap {
+  position: relative;
+  aspect-ratio: 4/3;
+  border-radius: 10px;
+  overflow: hidden;
+  background: rgba(250,248,244,0.06);
+  border: 1px solid rgba(250,248,244,0.1);
+}
+
+.quickNavImg {
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.quickNavCard:hover .quickNavImg {
+  transform: scale(1.06);
+}
+
+.quickNavLabel {
   font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: rgba(250,248,244,0.45);
-  padding: 6px 14px;
-  border: 1px solid rgba(250,248,244,0.12);
-  border-radius: 100px;
-  text-decoration: none;
-  transition: color 180ms, border-color 180ms, background 180ms;
+  color: rgba(250,248,244,0.7);
+  text-align: center;
+  transition: color 180ms ease;
 }
 
-.quickNavLink:hover {
+.quickNavCard:hover .quickNavLabel {
   color: var(--amber);
-  border-color: rgba(245,166,35,0.4);
-  background: rgba(245,166,35,0.06);
 }
 
 /* ── PRODUCT SECTION ─────────────────────────────── */
@@ -301,7 +360,7 @@
   margin-bottom: 10px;
 }
 
-/* Variants */
+/* Variants / Finish */
 .variantsBlock { margin-bottom: var(--s4); }
 
 .variants {
@@ -311,10 +370,13 @@
 }
 
 .variant {
+  display: flex;
+  align-items: center;
+  gap: 7px;
   font-size: 11px;
   font-weight: 500;
   color: var(--ink);
-  padding: 5px 12px;
+  padding: 5px 12px 5px 5px;
   border-radius: 100px;
   border: 1px solid var(--ink-10);
   background: transparent;
@@ -332,6 +394,24 @@
   background: var(--ink);
   border-color: var(--ink);
   color: var(--white);
+}
+
+.variantSwatch {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 1px solid rgba(0,0,0,0.08);
+}
+
+.variantSwatchImg {
+  object-fit: cover;
+}
+
+.variantLabel {
+  white-space: nowrap;
 }
 
 /* Material / colour note */
@@ -509,8 +589,8 @@
 }
 
 @media (max-width: 600px) {
-  .quickNav { gap: 4px; }
-  .quickNavLink { font-size: 10px; padding: 5px 10px; }
+  .quickNav { gap: 6px; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); }
+  .quickNavLabel { font-size: 10px; }
   .arrowBtn { width: 32px; height: 32px; opacity: 1; }
 }
 

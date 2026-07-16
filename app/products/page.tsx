@@ -266,7 +266,7 @@ function ProductSection({ product, index }: { product: Product; index: number })
               <p className={styles.tagline}>{activeVariant.tagline}</p>
               <p className={styles.description}>{activeVariant.description}</p>
 
-              {/* Variants */}
+              {/* Variants / Finish */}
               <div className={styles.variantsBlock}>
                 <p className={styles.blockLabel}>Finish</p>
                 <div className={styles.variants}>
@@ -277,7 +277,16 @@ function ProductSection({ product, index }: { product: Product; index: number })
                       onClick={() => handleVariantClick(vi)}
                       className={`${styles.variant} ${vi === activeVariantIndex ? styles.variantSelected : ''}`}
                     >
-                      {v.label}
+                      <span className={styles.variantSwatch}>
+                        <Image
+                          src={v.images[0].src}
+                          alt={v.label}
+                          fill
+                          className={styles.variantSwatchImg}
+                          sizes="32px"
+                        />
+                      </span>
+                      <span className={styles.variantLabel}>{v.label}</span>
                     </button>
                   ))}
                 </div>
@@ -347,9 +356,22 @@ export default function ProductsPage() {
           <p className={styles.pageDesc}>
             Three product families. One installation team. Serving Calgary and Edmonton.
           </p>
+
+          {/* Collection image cards */}
           <div className={styles.quickNav}>
             {PRODUCTS.map(p => (
-              <a key={p.id} href={`#${p.id}`} className={styles.quickNavLink}>{p.name}</a>
+              <a key={p.id} href={`#${p.id}`} className={styles.quickNavCard}>
+                <span className={styles.quickNavImgWrap}>
+                  <Image
+                    src={p.variants[0].images[0].src}
+                    alt={p.name}
+                    fill
+                    className={styles.quickNavImg}
+                    sizes="140px"
+                  />
+                </span>
+                <span className={styles.quickNavLabel}>{p.name}</span>
+              </a>
             ))}
           </div>
         </div>

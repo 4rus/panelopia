@@ -10,7 +10,7 @@ const productLinks = [
 ]
 
 const companyLinks = [
-  { href: '/gallery',    label: 'Design Ideas' },
+  { href: '/gallery',    label: 'Gallery' },
   { href: '/visualizer', label: 'Wall Visualizer' },
   { href: '/about',      label: 'About Us' },
   { href: '/contact',    label: 'Contact' },

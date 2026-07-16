@@ -26,30 +26,30 @@ const ROOMS: RoomOption[] = [
     label: "Living Room",
     src: "/images/Living-Room1.jpg",
     wallCorners: {
-      tl: { x: 0.30, y: 0.02 },
-      tr: { x: 0.90, y: 0.02 },
-      br: { x: 0.90, y: 0.78 },
-      bl: { x: 0.30, y: 0.78 },
+      tl: { x: 0.069, y: 0.219 },
+      tr: { x: 0.929, y: 0.222 },
+      br: { x: 0.929, y: 0.738 },
+      bl: { x: 0.065, y: 0.738 },
     },
   },
   {
     label: "Office",
     src: "/images/Bed-Room1.jpg",
     wallCorners: {
-      tl: { x: 0.20, y: 0.04 },
-      tr: { x: 0.80, y: 0.04 },
-      br: { x: 0.80, y: 0.68 },
-      bl: { x: 0.20, y: 0.68 },
+      tl: { x: 0.108, y: 0.077 },
+      tr: { x: 0.889, y: 0.076 },
+      br: { x: 0.89, y: 0.827 },
+      bl: { x: 0.099, y: 0.827 },
     },
   },
   {
     label: "Bedroom",
     src: "/images/Living-Room2.jpg",
     wallCorners: {
-      tl: { x: 0.28, y: 0.04 },
-      tr: { x: 0.85, y: 0.04 },
-      br: { x: 0.85, y: 0.75 },
-      bl: { x: 0.28, y: 0.75 },
+      tl: { x: 0.122, y: 0.192 },
+      tr: { x: 0.882, y: 0.189 },
+      br: { x: 0.884, y: 0.751 },
+      bl: { x: 0.122, y: 0.749 },
     },
   },
 ];
@@ -173,7 +173,7 @@ function drawAffineTriangle(
 function drawWarpedTexture(ctx: CanvasRenderingContext2D, tex: HTMLImageElement, corners: Corners, repeat = 8, repeatY = repeat): void {
   const tw = tex.naturalWidth || 512;
   const th = tex.naturalHeight || 512;
-  
+
   // GRID must be a multiple of repeat so tile boundaries land exactly on cell edges
   const GRID_X = repeat * 4;   // 4 subdivisions per tile
   const GRID_Y = repeatY * 4;
@@ -227,11 +227,25 @@ function useImage(src: string): [HTMLImageElement|null, boolean] {
   return [state.img,state.ready];
 }
 
+// ── Responsive breakpoint hook ──────────────────────────────────────────
+function useIsMobile(breakpoint = 860): boolean {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= breakpoint);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, [breakpoint]);
+  return isMobile;
+}
+
 export default function WallVisualizer(): JSX.Element {
   const wrapRef   = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fileRef   = useRef<HTMLInputElement>(null);
   const blobUrlRef= useRef<string|null>(null);
+
+  const isMobile = useIsMobile();
 
   const [cw,setCw]=useState(900);
   const [ch,setCh]=useState(562);
@@ -286,7 +300,7 @@ export default function WallVisualizer(): JSX.Element {
 
 // repeatX = how many times to tile horizontally
 // repeatY = how many times to tile vertically (1 = stretch to fill, no repeat)
-const [repeatX, repeatY] = 
+const [repeatX, repeatY] =
   activeTex?.category === "Wall"        ? [3, 1] :
   activeTex?.category === "Acoustic"    ? [3, 1] :
   activeTex?.category === "Decorative"  ? [6, 3] :
@@ -350,64 +364,110 @@ drawWarpedTexture(ctx, texImg, corners, repeatX, repeatY);
   },[]);
   useEffect(()=>()=>{if(blobUrlRef.current)URL.revokeObjectURL(blobUrlRef.current);},[]);
 
+  const [copied, setCopied] = useState(false);
+  const handleCopyCoords = useCallback(() => {
+    const norm = {
+      tl: { x: +(corners.tl.x / cw).toFixed(3), y: +(corners.tl.y / ch).toFixed(3) },
+      tr: { x: +(corners.tr.x / cw).toFixed(3), y: +(corners.tr.y / ch).toFixed(3) },
+      br: { x: +(corners.br.x / cw).toFixed(3), y: +(corners.br.y / ch).toFixed(3) },
+      bl: { x: +(corners.bl.x / cw).toFixed(3), y: +(corners.bl.y / ch).toFixed(3) },
+    };
+    const code =
+`wallCorners: {
+  tl: { x: ${norm.tl.x}, y: ${norm.tl.y} },
+  tr: { x: ${norm.tr.x}, y: ${norm.tr.y} },
+  br: { x: ${norm.br.x}, y: ${norm.br.y} },
+  bl: { x: ${norm.bl.x}, y: ${norm.bl.y} },
+},`;
+    navigator.clipboard?.writeText(code).catch(() => {});
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1800);
+  }, [corners, cw, ch]);
+
   return (
     <div style={{
       width: "100%",
       height: "100%",
       display: "flex",
+      flexDirection: isMobile ? "column" : "row",
       fontFamily: "system-ui,-apple-system,sans-serif",
       overflow: "hidden",
     }}>
 
       {/* ── Canvas column ── */}
-      <div style={{flex:1,minWidth:0,display:"flex",flexDirection:"column",background:"#111",overflow:"hidden"}}>
-
-        {/* Toolbar */}
-        <div style={{
-          display:"flex",alignItems:"center",gap:8,
-          padding:"0 16px",height:46,flexShrink:0,
-          background:"#1c1916",borderBottom:"1px solid rgba(255,255,255,0.08)",
-        }}>
-          <span style={{fontSize:13,fontWeight:600,color:"#f0d9a8",letterSpacing:"0.02em"}}>
-            Wall Visualizer
-          </span>
-          <div style={{flex:1}}/>
-          <button onClick={()=>fileRef.current?.click()} style={btnStyle}>
-            <UploadIcon/><span>Upload room</span>
-          </button>
-          <input ref={fileRef} type="file" accept="image/*" style={{display:"none"}} onChange={handleUpload}/>
-          <button
-            onClick={()=>setShowH(v=>!v)}
-            style={{
-              ...btnStyle,
-              background:  showH?"rgba(245,166,35,0.18)":"rgba(255,255,255,0.05)",
-              borderColor: showH?"rgba(245,166,35,0.45)":"rgba(255,255,255,0.12)",
-              color:       showH?"#f5c86a":"rgba(255,255,255,0.55)",
-            }}
-          >
-            <EyeIcon open={!showH}/><span>{showH?"Hide handles":"Show handles"}</span>
-          </button>
-        </div>
+      <div style={{
+        flex: isMobile ? "0 0 42%" : 1,
+        minWidth: 0,
+        minHeight: 0,
+        display: "flex",
+        flexDirection: "column",
+        background: "#111",
+        overflow: "hidden",
+      }}>
 
         {/* Canvas */}
         <div ref={wrapRef} style={{
           flex:1,minHeight:0,
+          position: "relative",
           display:"flex",alignItems:"center",justifyContent:"center",
-          padding:12,boxSizing:"border-box",overflow:"hidden",
+          padding: isMobile ? 8 : 12,boxSizing:"border-box",overflow:"hidden",
         }}>
           <canvas
             ref={canvasRef} width={cw} height={ch}
             style={{display:"block",maxWidth:"100%",maxHeight:"100%",width:"auto",height:"auto",borderRadius:6,cursor,boxShadow:"0 4px 32px rgba(0,0,0,0.6)"}}
             onMouseDown={onDown} onMouseMove={onMove} onMouseUp={onUp} onMouseLeave={onUp}
           />
+
+          {/* Floating action buttons */}
+          <div style={{
+            position:"absolute",
+            top: isMobile ? 8 : 12,
+            right: isMobile ? 8 : 12,
+            display:"flex",
+            gap: isMobile ? 6 : 8,
+            zIndex: 5,
+          }}>
+            <button onClick={()=>fileRef.current?.click()} style={btnStyle(isMobile)} title="Upload room">
+              <UploadIcon/>{!isMobile && <span>Upload room</span>}
+            </button>
+            <input ref={fileRef} type="file" accept="image/*" style={{display:"none"}} onChange={handleUpload}/>
+            <button
+              onClick={()=>setShowH(v=>!v)}
+              title={showH ? "Hide handles" : "Show handles"}
+              style={{
+                ...btnStyle(isMobile),
+                background:  showH?"rgba(245,166,35,0.22)":"rgba(20,17,12,0.75)",
+                borderColor: showH?"rgba(245,166,35,0.5)":"rgba(255,255,255,0.15)",
+                color:       showH?"#f5c86a":"rgba(255,255,255,0.75)",
+              }}
+            >
+              <EyeIcon open={!showH}/>{!isMobile && <span>{showH?"Hide handles":"Show handles"}</span>}
+            </button>
+            <button
+              onClick={handleCopyCoords}
+              title="Copy current corner coordinates"
+              style={{
+                ...btnStyle(isMobile),
+                background: copied ? "rgba(80,200,120,0.25)" : "rgba(20,17,12,0.72)",
+                borderColor: copied ? "rgba(80,200,120,0.6)" : "rgba(255,255,255,0.15)",
+                color: copied ? "#8fe6ad" : "rgba(255,255,255,0.8)",
+              }}
+            >
+              <CopyIcon/>{!isMobile && <span>{copied ? "Copied!" : "Copy coords"}</span>}
+            </button>
+          </div>
         </div>
       </div>
 
       {/* ── Sidebar ── */}
       <div style={{
-        width:230,flexShrink:0,
+        width: isMobile ? "100%" : 230,
+        flexShrink: 0,
+        flex: isMobile ? "1 1 58%" : "none",
         display:"flex",flexDirection:"column",
-        background:"#1c1916",borderLeft:"1px solid rgba(255,255,255,0.1)",
+        background:"#1c1916",
+        borderLeft: isMobile ? "none" : "1px solid rgba(255,255,255,0.1)",
+        borderTop:  isMobile ? "1px solid rgba(255,255,255,0.1)" : "none",
         overflow:"hidden",
         minHeight:0,
       }}>
@@ -422,28 +482,43 @@ drawWarpedTexture(ctx, texImg, corners, repeatX, repeatY);
         }}>
 
           {/* Rooms */}
-          <div style={{padding:"14px 12px 10px",borderBottom:"1px solid rgba(255,255,255,0.07)"}}>
+          <div style={{padding: isMobile ? "12px 12px 10px" : "14px 12px 10px",borderBottom:"1px solid rgba(255,255,255,0.07)"}}>
             <SectionLabel>Rooms</SectionLabel>
-            <div style={{display:"flex",flexDirection:"column",gap:6}}>
-              {ROOMS.map(room=>(
-                <RoomThumb key={room.src} src={room.src} label={room.label}
-                  active={roomSrc===room.src} onClick={()=>handleRoomSelect(room)}/>
-              ))}
-            </div>
+            {isMobile ? (
+              <div style={{display:"flex",flexDirection:"row",gap:8,overflowX:"auto",paddingBottom:2}}>
+                {ROOMS.map(room=>(
+                  <RoomThumb key={room.src} src={room.src} label={room.label}
+                    active={roomSrc===room.src} onClick={()=>handleRoomSelect(room)}
+                    width={128} shrink0 />
+                ))}
+              </div>
+            ) : (
+              <div style={{display:"flex",flexDirection:"column",gap:6}}>
+                {ROOMS.map(room=>(
+                  <RoomThumb key={room.src} src={room.src} label={room.label}
+                    active={roomSrc===room.src} onClick={()=>handleRoomSelect(room)}/>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Panels */}
-          <div style={{padding:"10px 12px 16px"}}>
+          <div style={{padding: isMobile ? "10px 12px 18px" : "10px 12px 16px"}}>
             <SectionLabel>Panels</SectionLabel>
             {TEXTURE_GROUPS.map(group=>(
               <div key={group.group} style={{marginBottom:14}}>
-                <p style={{margin:"0 0 6px",fontSize:9,fontWeight:600,letterSpacing:"0.1em",textTransform:"uppercase",color:"rgba(255,255,255,0.22)"}}>
+                <p style={{margin:"0 0 7px",fontSize: isMobile?10:9,fontWeight:600,letterSpacing:"0.1em",textTransform:"uppercase",color:"rgba(255,255,255,0.28)"}}>
                   {group.group}
                 </p>
-                <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:6}}>
+                <div style={{
+                  display:"grid",
+                  gridTemplateColumns: isMobile ? "repeat(3, 1fr)" : "1fr 1fr",
+                  gap: isMobile ? 8 : 6,
+                }}>
                   {group.items.map(tex=>(
                     <PanelThumb key={tex.src} src={tex.src} label={tex.label}
-                      active={texSrc===tex.src} onClick={()=>setTexSrc(tex.src)}/>
+                      active={texSrc===tex.src} onClick={()=>setTexSrc(tex.src)}
+                      size={isMobile ? 64 : 52} />
                   ))}
                 </div>
               </div>
@@ -452,33 +527,42 @@ drawWarpedTexture(ctx, texImg, corners, repeatX, repeatY);
 
         </div>
 
-        {/* Hint — pinned at bottom */}
-        <div style={{flexShrink:0,padding:"10px 12px",borderTop:"1px solid rgba(255,255,255,0.06)"}}>
-          <p style={{margin:0,fontSize:10,lineHeight:1.6,color:"rgba(255,255,255,0.25)"}}>
-            Wall auto-detected. Drag <span style={{color:"#f5c86a"}}>corner handles</span> to refine, then hide to preview.
-          </p>
-        </div>
+        {/* Hint — pinned at bottom, hidden on mobile to save space */}
+        {!isMobile && (
+          <div style={{flexShrink:0,padding:"10px 12px",borderTop:"1px solid rgba(255,255,255,0.06)"}}>
+            <p style={{margin:0,fontSize:10,lineHeight:1.6,color:"rgba(255,255,255,0.25)"}}>
+              Wall auto-detected. Drag <span style={{color:"#f5c86a"}}>corner handles</span> to refine, then hide to preview.
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
 }
 
-const btnStyle: React.CSSProperties = {
-  display:"inline-flex",alignItems:"center",gap:5,
-  padding:"5px 10px",fontSize:12,fontWeight:500,
-  borderRadius:6,border:"1px solid rgba(255,255,255,0.12)",
-  background:"rgba(255,255,255,0.05)",color:"rgba(255,255,255,0.7)",
+const btnStyle = (compact: boolean): React.CSSProperties => ({
+  display:"inline-flex",alignItems:"center",justifyContent:"center",gap:5,
+  padding: compact ? "8px" : "7px 12px", fontSize:12,fontWeight:500,
+  borderRadius:8,border:"1px solid rgba(255,255,255,0.15)",
+  background:"rgba(20,17,12,0.72)",color:"rgba(255,255,255,0.8)",
+  backdropFilter:"blur(6px)",
   cursor:"pointer",flexShrink:0,whiteSpace:"nowrap",
-};
+  minWidth: compact ? 36 : undefined,
+  boxShadow:"0 2px 12px rgba(0,0,0,0.35)",
+});
 
 function SectionLabel({children}: {children: React.ReactNode}) {
   return <p style={{margin:"0 0 8px",fontSize:9,fontWeight:700,letterSpacing:"0.14em",textTransform:"uppercase",color:"rgba(255,255,255,0.38)"}}>{children}</p>;
 }
 
-function RoomThumb({src,label,active,onClick}: {src:string;label:string;active:boolean;onClick:()=>void}) {
+function RoomThumb({src,label,active,onClick,width,shrink0}: {
+  src:string;label:string;active:boolean;onClick:()=>void;width?:number;shrink0?:boolean;
+}) {
   return (
     <button onClick={onClick} style={{
-      position:"relative",overflow:"hidden",borderRadius:6,width:"100%",
+      position:"relative",overflow:"hidden",borderRadius:8,
+      width: width ? width : "100%",
+      flexShrink: shrink0 ? 0 : undefined,
       border:active?"2px solid #f5a623":"2px solid transparent",
       padding:0,cursor:"pointer",background:"none",outline:"none",
       opacity:active?1:0.68,transition:"opacity 0.15s,border-color 0.15s",display:"block",
@@ -487,17 +571,17 @@ function RoomThumb({src,label,active,onClick}: {src:string;label:string;active:b
       onMouseLeave={e=>{if(!active)(e.currentTarget as HTMLButtonElement).style.opacity="0.68";}}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={src} alt={label} loading="lazy" style={{display:"block",width:"100%",height:52,objectFit:"cover"}}/>
+      <img src={src} alt={label} loading="lazy" style={{display:"block",width:"100%",height: width ? 74 : 52,objectFit:"cover"}}/>
       <div style={{position:"absolute",inset:0,background:"linear-gradient(to top,rgba(0,0,0,0.65) 0%,transparent 60%)",pointerEvents:"none"}}/>
-      <span style={{position:"absolute",bottom:5,left:7,fontSize:11,fontWeight:600,color:"#fff",textShadow:"0 1px 3px rgba(0,0,0,0.9)",pointerEvents:"none"}}>{label}</span>
+      <span style={{position:"absolute",bottom:6,left:8,fontSize:12,fontWeight:600,color:"#fff",textShadow:"0 1px 3px rgba(0,0,0,0.9)",pointerEvents:"none"}}>{label}</span>
     </button>
   );
 }
 
-function PanelThumb({src,label,active,onClick}: {src:string;label:string;active:boolean;onClick:()=>void}) {
+function PanelThumb({src,label,active,onClick,size}: {src:string;label:string;active:boolean;onClick:()=>void;size?:number}) {
   return (
     <button onClick={onClick} style={{
-      position:"relative",overflow:"hidden",borderRadius:5,
+      position:"relative",overflow:"hidden",borderRadius:6,
       border:active?"2px solid #f5a623":"2px solid transparent",
       padding:0,cursor:"pointer",background:"none",outline:"none",
       opacity:active?1:0.68,transition:"opacity 0.15s,border-color 0.15s",
@@ -506,9 +590,9 @@ function PanelThumb({src,label,active,onClick}: {src:string;label:string;active:
       onMouseLeave={e=>{if(!active)(e.currentTarget as HTMLButtonElement).style.opacity="0.68";}}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={src} alt={label} loading="lazy" style={{display:"block",width:"100%",height:52,objectFit:"cover"}}/>
+      <img src={src} alt={label} loading="lazy" style={{display:"block",width:"100%",height: size ?? 52,objectFit:"cover"}}/>
       <div style={{position:"absolute",inset:0,background:"linear-gradient(to top,rgba(0,0,0,0.72) 0%,transparent 55%)",pointerEvents:"none"}}/>
-      <span style={{position:"absolute",bottom:4,left:5,right:5,fontSize:9.5,fontWeight:600,color:"#fff",textShadow:"0 1px 3px rgba(0,0,0,0.9)",pointerEvents:"none",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{label}</span>
+      <span style={{position:"absolute",bottom:4,left:5,right:5,fontSize: size && size > 56 ? 10.5 : 9.5,fontWeight:600,color:"#fff",textShadow:"0 1px 3px rgba(0,0,0,0.9)",pointerEvents:"none",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>{label}</span>
     </button>
   );
 }
@@ -521,4 +605,8 @@ function EyeIcon({open}: {open:boolean}) {
   return open
     ? <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
     : <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24M1 1l22 22"/></svg>;
+}
+
+function CopyIcon() {
+  return <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>;
 }
