@@ -66,7 +66,7 @@ export default function AboutPage() {
             </div>
             <div className={styles.missionStats}>
               {[
-                { n: '50+', l: 'Projects completed' },
+                { n: '1200+', l: 'Projects completed' },
                 { n: '3+', l: 'Years in business' },
                 { n: '2', l: 'Alberta showrooms' },
               ].map(s => (

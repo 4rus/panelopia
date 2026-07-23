@@ -76,7 +76,7 @@ npm run dev
 ## Available scripts
 
 - `npm run dev` — start the Next.js development server
-- `npm run build` — build for production
+- `npm run build` — build for production    
 - `npm run start` — run the production server after build
 - `npm run lint` — run Next.js ESLint checks
 
