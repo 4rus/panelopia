@@ -281,8 +281,7 @@ export default function ContactPage() {
               <div className={styles.infoBlock}>
                 <h3 className={styles.infoTitle}>Calgary Showroom</h3>
                 <p className={styles.infoAddress}>
-                  New Horizon Mall, 260300 Writing Creek Cres<br />
-                  Unit G-02, Balzac, AB T4A 0X8
+                  101 - 2966 Main ST, Airdrie<br />
                 </p>
                 <div className={styles.hoursDivider} />
                 <ShowroomHours />

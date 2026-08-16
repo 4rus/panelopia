@@ -56,7 +56,7 @@ export default function AboutPage() {
               <p className={styles.missionBody}>
                 We changed that. We supply WPC wall panels, UV marble sheets, acoustic panels,
                 and designer wallpapers — and our in-house team installs every single one. Visit
-                us at New Horizon Mall in Calgary or our Edmonton location in Beaumont.
+                us at 101 - 2966 Main ST, Airdrie in Calgary or our Edmonton location in Beaumont.
               </p>
               <div className={styles.missionContact}>
                 <a href="tel:5874335187" className={styles.missionPhone}>587-433-5187</a>
@@ -116,9 +116,8 @@ export default function AboutPage() {
               <div className={styles.showroomInfo}>
                 <h3 className={styles.showroomCity}>Calgary</h3>
                 <p className={styles.showroomAddr}>
-                  New Horizon Mall, Unit G-02<br />
-                  260300 Writing Creek Cres<br />
-                  Balzac, AB T4A 0X8
+                  101 - 2966 Main St, Airdrie<br />
+                  AB T4B 3G4<br />
                 </p>
                 <p className={styles.showroomHours}>By appointment — call 587-433-5187</p>
               </div>

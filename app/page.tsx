@@ -302,7 +302,7 @@ export default function HomePage() {
             <p className="eyebrow">Ready to Begin?</p>
             <h2 className={styles.ctaTitle}>Visit our showroom</h2>
             <p className={styles.ctaSub}>
-              Calgary: New Horizon Mall, Unit G-02, Balzac, AB<br />
+              Calgary: 101 - 2966 Main ST, Airdrie<br />
               Edmonton: 65 St, Beaumont, AB<br />
               Call <a href="tel:5874335187" className={styles.ctaPhone}>587-433-5187</a> to book an appointment.
             </p>

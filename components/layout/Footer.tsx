@@ -82,9 +82,8 @@ export default function Footer() {
           <p className={styles.contactItem}><a href="mailto:info@panelopia.com" className={styles.footLink}>info@panelopia.com</a></p>
           <p className={styles.contactAddr}>
             <strong>Calgary:</strong><br/>
-            New Horizon Mall, Unit G-02<br/>
-            260300 Writing Creek Cres<br/>
-            Balzac, AB T4A 0X8
+            101 - 2966 Main St, Airdrie<br/>
+            AB T4B 3G4<br/>
           </p>
           <p className={styles.contactAddr}>
             <strong>Edmonton:</strong><br/>
