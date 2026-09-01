@@ -279,7 +279,7 @@ function ProductSection({ product, index }: { product: Product; index: number })
                     >
                       <span className={styles.variantSwatch}>
                         <Image
-                          src={v.images[0].src}
+                          src={(v.swatchImage ?? v.images[0]).src}
                           alt={v.label}
                           fill
                           className={styles.variantSwatchImg}
