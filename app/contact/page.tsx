@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { insertLead } from '@/lib/supabase'
 import styles from './page.module.css'
+import PageHeader from '@/components/layout/PageHeader'
 
 type FormData = {
   firstName: string
@@ -88,15 +89,11 @@ export default function ContactPage() {
 
   return (
     <div className={styles.page}>
-      <div className={styles.header}>
-        <div className="container">
-          <p className="eyebrow">Let&apos;s Talk</p>
-          <h1 className={styles.pageTitle}>Get in touch</h1>
-          <p className={styles.pageDesc}>
-            Tell us about your project and we&apos;ll be in touch within one business day.
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        eyebrow="Let's Talk"
+        title="Get in touch"
+        description="Tell us about your project and we'll be in touch within one business day."
+      />
 
       <div className={styles.main}>
         <div className="container">

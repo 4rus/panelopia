@@ -188,6 +188,14 @@
   .brand { grid-column: 1 / -1; }
 }
 
+@media (max-width: 900px) {
+  /* Clears the fixed MobileTabBar (components/layout/MobileTabBar.tsx)
+     so the footer's own bottom content isn't hidden behind it. */
+  .footer {
+    padding-bottom: calc(var(--s6) + 60px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
 @media (max-width: 600px) {
   .inner { grid-template-columns: 1fr; }
   .bottom { flex-direction: column; gap: 8px; text-align: center; }

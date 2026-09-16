@@ -1,6 +1,12 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import Reveal from '@/components/ui/Reveal'
+import Counter from '@/components/ui/Counter'
 import styles from './page.module.css'
+
+const marqueeItems = [
+  'WPC Slat Panels', 'UV Marble Sheets', 'Acoustic Panels', 'Designer Wallpapers', 'Decorative Panels',
+]
 
 const stats = [
   { value: '1200+', label: 'Projects completed' },
@@ -13,19 +19,19 @@ const categories = [
   {
     id: 'wpc-panels',
     label: 'WPC Wall Panels',
-    description: "Waterproof wood-plastic composite slat panels — warm timber look, engineered for Alberta's climate.",
+    description: "Waterproof wood-plastic composite slat panels with a warm timber look, engineered for Alberta's climate.",
     accent: '#F5A623',
   },
   {
     id: 'uv-marble',
     label: 'UV Marble Imitation Sheets',
-    description: 'Lightweight UV-protected PVC marble sheets — the depth of natural stone, none of the weight or maintenance.',
+    description: 'Lightweight UV-protected PVC marble sheets with the depth of natural stone, none of the weight or maintenance.',
     accent: '#3DBFBF',
   },
   {
     id: 'wallpapers',
     label: 'Designer Wallpapers',
-    description: 'Curated vinyl, grasscloth, and non-woven wallcoverings — supplied and installed by our team.',
+    description: 'Curated vinyl, grasscloth, and non-woven wallcoverings, supplied and installed by our team.',
     accent: '#E8522A',
   },
   {
@@ -60,41 +66,19 @@ export default function HomePage() {
 
       {/* ── HERO ───────────────────────────────────── */}
       <section className={styles.hero}>
-        <div className={styles.heroBg}>
-          <Image
-            src="/images/heroImageNew.jpg"
-            alt="Panelopia showroom featuring WPC slat wall panels"
-            fill
-            priority
-            quality={100}
-            className={styles.heroBgImg}
-            sizes="100vw"
-          />
-          <div className={styles.heroOverlay} />
-        </div>
+        <div className={styles.heroSlats} aria-hidden="true" />
 
-        <div className={styles.heroContent}>
-          <div className={styles.trustBar}>
-            <span className={styles.trustItem}>
-              <span className={styles.trustDot} />
-              Serving Greater Calgary Area
-            </span>
-            <span className={styles.trustDivider} />
-            <span className={styles.trustItem}>Supply &amp; Installation Available</span>
-            <span className={styles.trustDivider} />
-            <span className={styles.trustItem}>Trusted by Homeowners &amp; Designers</span>
-          </div>
+        <div className={styles.heroInner}>
+          <p className={styles.heroEyebrow}>Wall Surfaces · Calgary + Edmonton</p>
 
           <h1 className={styles.heroTitle}>
-            Premium Surfaces.
-            <br />
-            Expertly Installed.
+            <span className={styles.heroTitleLine}>Premium</span>
+            <span className={styles.heroTitleAccent}>Surfaces.</span>
+            <span className={styles.heroTitleLine}>Expertly Installed.</span>
           </h1>
 
           <p className={styles.heroSub}>
-            Panelopia supplies WPC slat panels, UV marble sheets, acoustic panels, and designer
-            wallpapers — and installs them ourselves. Visit our showroom in Calgary or Edmonton,
-            or book a free site visit.
+            Supplied and installed by our own team, start to finish.
           </p>
 
           <div className={styles.heroCtas}>
@@ -102,29 +86,48 @@ export default function HomePage() {
               Explore Collections
             </Link>
             <Link href="/contact" className={styles.heroCtaOutline}>
-              Book a Site Visit
+              Book a Site Visit →
             </Link>
+          </div>
+        </div>
+
+        <div className={styles.heroMarquee} aria-hidden="true">
+          <div className={styles.heroMarqueeTrack}>
+            {[...marqueeItems, ...marqueeItems].map((item, i) => (
+              <span key={i} className={styles.heroMarqueeItem}>
+                {item}
+                <span className={styles.heroMarqueeDot}>—</span>
+              </span>
+            ))}
           </div>
         </div>
       </section>
 
       {/* ── STATS STRIP ────────────────────────────── */}
       <section className={styles.stats}>
-        <div className="container">
+        <Reveal className="container">
+          <div className={styles.trustBar}>
+            <span className={styles.trustItem}>Serving Greater Calgary Area</span>
+            <span className={styles.trustDivider} />
+            <span className={styles.trustItem}>Supply &amp; Installation Available</span>
+            <span className={styles.trustDivider} />
+            <span className={styles.trustItem}>Trusted by Homeowners &amp; Designers</span>
+          </div>
+
           <div className={styles.statsGrid}>
             {stats.map((s) => (
               <div key={s.label} className={styles.stat}>
-                <span className={styles.statValue}>{s.value}</span>
+                <span className={styles.statValue}><Counter value={s.value} /></span>
                 <span className={styles.statLabel}>{s.label}</span>
               </div>
             ))}
           </div>
-        </div>
+        </Reveal>
       </section>
 
       {/* ── SPLIT FEATURE ──────────────────────────── */}
       <section className={styles.featureSplit}>
-        <div className={styles.featureSplitImg}>
+        <Reveal className={styles.featureSplitImg}>
           <Image
             src="/images/entryway-slat.jpg"
             alt="Oak WPC slat wall panel installed in residential entryway"
@@ -132,22 +135,22 @@ export default function HomePage() {
             className={styles.featureImg}
             sizes="50vw"
           />
-        </div>
-        <div className={styles.featureSplitText}>
+        </Reveal>
+        <Reveal className={styles.featureSplitText} delay={150}>
           <p className="eyebrow">Why Panelopia</p>
           <h2 className={styles.featureTitle}>
-            We supply and install — under one roof.
+            We supply and install under one roof.
           </h2>
           <p className={styles.featureBody}>
             Most suppliers drop off materials and leave the installation to you.
             We do both. Our in-house team measures, cuts, and fits every panel
-            ourselves — so you get a seamless finish and a single point of contact
+            ourselves, so you get a seamless finish and a single point of contact
             from first call to final inspection.
           </p>
           <div className={styles.featurePoints}>
             {[
-              'WPC panels — waterproof &amp; termite resistant',
-              'UV marble sheets — lightweight, scratch-resistant',
+              'WPC panels: waterproof &amp; termite resistant',
+              'UV marble sheets: lightweight, scratch-resistant',
               'Acoustic wall panels for home &amp; office',
               'Designer wallpapers, fully installed',
             ].map((p) => (
@@ -160,12 +163,12 @@ export default function HomePage() {
           <Link href="/products" className={styles.featureCta}>
             See all products →
           </Link>
-        </div>
+        </Reveal>
       </section>
 
       {/* ── PRODUCTS GRID ──────────────────────────── */}
       <section className={`section ${styles.products}`}>
-        <div className="container">
+        <Reveal className="container">
           <div className={styles.sectionHeader}>
             <p className="eyebrow">Our Collections</p>
             <h2 className={styles.sectionTitle}>Five product families. One installer.</h2>
@@ -201,19 +204,19 @@ export default function HomePage() {
               View all products
             </Link>
           </div>
-        </div>
+        </Reveal>
       </section>
 
       {/* ── GALLERY STRIP ──────────────────────────── */}
       <section className={styles.galleryStrip}>
-        <div className={styles.galleryStripInner}>
+        <Reveal className={styles.galleryStripInner}>
           <div className={styles.galleryStripText}>
             <p className="eyebrow">Recent Installations</p>
             <h2 className={styles.galleryStripTitle}>
               Installed across Alberta.
             </h2>
             <p className={styles.galleryStripSub}>
-              From fireplace feature walls in Calgary to office receptions in Edmonton —
+              From fireplace feature walls in Calgary to office receptions in Edmonton,
               browse completed projects and get ideas for your own space.
             </p>
             <Link href="/gallery" className={styles.galleryStripCta}>
@@ -231,12 +234,12 @@ export default function HomePage() {
               </div>
             ))}
           </div>
-        </div>
+        </Reveal>
       </section>
 
       {/* ── VISUALIZER PROMO ───────────────────────── */}
       <section className={styles.visualizerPromo}>
-        <div className="container">
+        <Reveal className="container">
           <div className={styles.visualizerInner}>
             <div className={styles.visualizerText}>
               <p className={styles.visualizerEyebrow}>Wall Visualizer</p>
@@ -245,7 +248,7 @@ export default function HomePage() {
               </h2>
               <p className={styles.visualizerSub}>
                 Upload a photo of your room. Choose from our full catalogue. Adjust coverage
-                and size. Share the preview with us — all in under two minutes.
+                and size. Share the preview with us, all in under two minutes.
               </p>
               <div className={styles.visualizerCtas}>
                 <Link href="/visualizer" className={styles.visualizerCta}>
@@ -272,12 +275,12 @@ export default function HomePage() {
               </div>
             </div>
           </div>
-        </div>
+        </Reveal>
       </section>
 
       {/* ── PROCESS ────────────────────────────────── */}
       <section className={`section ${styles.processSection}`}>
-        <div className="container">
+        <Reveal className="container">
           <div className={styles.sectionHeader}>
             <p className="eyebrow">How It Works</p>
             <h2 className={styles.sectionTitle}>From first call to finished wall</h2>
@@ -292,12 +295,12 @@ export default function HomePage() {
               </div>
             ))}
           </div>
-        </div>
+        </Reveal>
       </section>
 
       {/* ── BOTTOM CTA ─────────────────────────────── */}
       <section className={styles.ctaSection}>
-        <div className="container-narrow">
+        <Reveal className="container-narrow">
           <div className={styles.ctaInner}>
             <p className="eyebrow">Ready to Begin?</p>
             <h2 className={styles.ctaTitle}>Visit our showroom</h2>
@@ -315,7 +318,7 @@ export default function HomePage() {
               </Link>
             </div>
           </div>
-        </div>
+        </Reveal>
       </section>
 
     </div>

@@ -28,6 +28,13 @@
   outline-offset: 3px;
 }
 
+@media (max-width: 900px) {
+  /* Clears the fixed MobileTabBar (components/layout/MobileTabBar.tsx). */
+  .button {
+    bottom: calc(20px + 60px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
 .icon {
   width: 26px;
   height: 26px;

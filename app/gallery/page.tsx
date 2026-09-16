@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import Image from 'next/image'
 import styles from './page.module.css'
+import PageHeader from '@/components/layout/PageHeader'
 
 type Size = 'large' | 'medium' | 'small'
 
@@ -54,15 +55,11 @@ export default function GalleryPage() {
 
   return (
     <div className={styles.page}>
-      <div className={styles.header}>
-        <div className="container">
-          <p className="eyebrow">Portfolio</p>
-          <h1 className={styles.pageTitle}>Our Projects</h1>
-          <p className={styles.pageDesc}>
-            A look at real Panelopia installations across our showroom and client spaces.
-          </p>
-        </div>
-      </div>
+      <PageHeader
+        eyebrow="Portfolio"
+        title="Our Projects"
+        description="A look at real Panelopia installations across our showroom and client spaces."
+      />
 
       <div className={styles.main}>
         <div className="container">

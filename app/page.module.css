@@ -1,137 +1,156 @@
 /* ══════════════════════════════════════════════════
-   HERO  —  premium, cinematic, architectural
+   HERO  —  typography-led, no photography.
+   The "wall panel" concept is carried by an abstract slat pattern
+   (pure CSS gradients, not an image) and an oversized, mixed-weight
+   headline instead of a photo — deliberately built to not look like a
+   template: nothing centered, one word blown up as a graphic element,
+   a scrolling material ticker instead of a static subhead line.
 ══════════════════════════════════════════════════ */
 .hero {
   position: relative;
-  min-height: 92vh;
-  display: flex;
-  align-items: center;
-  padding-bottom: clamp(32px, 5vw, 64px);
+  background: var(--cream);
+  border-bottom: 1px solid var(--ink-10);
   overflow: hidden;
+  padding-top: 152px;
 }
 
-.heroBg {
+/* Abstract slat/panel texture — vertical rules at two different
+   rhythms (one ink, one amber) standing in for the product itself,
+   faded top and bottom so it reads as atmosphere, not wallpaper. */
+.heroSlats {
   position: absolute;
   inset: 0;
-}
-
-.heroBgImg {
-  object-fit: cover;
-  /* Shifted left so the TV console isn't sitting directly behind the
-     headline — the plain slat wall on the left of the shot reads much
-     cleaner under the text. */
-  object-position: 25% 32%;
-}
-
-.heroOverlay {
-  position: absolute;
-  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
   background:
-    linear-gradient(
-      100deg,
-      rgba(14, 11, 7, 0.82) 0%,
-      rgba(14, 11, 7, 0.65) 40%,
-      rgba(14, 11, 7, 0.10) 70%,
-      transparent 100%
+    repeating-linear-gradient(
+      90deg,
+      var(--ink-10) 0px, var(--ink-10) 2px,
+      transparent 2px, transparent 30px
     ),
-    linear-gradient(
-      to top,
-      rgba(14, 11, 7, 0.75) 0%,
-      rgba(14, 11, 7, 0.20) 35%,
-      transparent 65%
-    ),
-    linear-gradient(
-      to bottom,
-      rgba(14, 11, 7, 0.35) 0%,
-      transparent 20%
+    repeating-linear-gradient(
+      90deg,
+      rgba(245, 166, 35, 0.10) 0px, rgba(245, 166, 35, 0.10) 1px,
+      transparent 1px, transparent 90px
     );
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 25%, black 80%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 25%, black 80%, transparent 100%);
 }
 
-.heroContent {
-  position: relative;
-  z-index: 2;
-  max-width: 1280px;
-  width: 100%;
-  margin: 0 auto;
-  padding: 0 clamp(24px, 4vw, 40px);
-  animation: heroEntrance 1.1s var(--ease-out) 0.1s both;
+/* A soft band of light drifting across the slats on a loop — like
+   light catching real wood grain. Keeps the hero feeling alive after
+   the entrance animation finishes, without adding any new elements. */
+.heroSlats::after {
+  content: '';
+  position: absolute;
+  inset: -20% -40%;
+  background: linear-gradient(
+    100deg,
+    transparent 42%,
+    rgba(255, 255, 255, 0.55) 49%,
+    rgba(255, 210, 130, 0.4) 51%,
+    transparent 58%
+  );
+  mix-blend-mode: soft-light;
+  animation: heroLightSweep 10s ease-in-out infinite;
+}
+
+@keyframes heroLightSweep {
+  0%, 100% { transform: translateX(-55%); }
+  50%      { transform: translateX(55%); }
 }
 
 @keyframes heroEntrance {
-  from { opacity: 0; transform: translateY(20px); }
+  from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-.trustBar {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  margin-bottom: clamp(24px, 3vw, 40px);
-  flex-wrap: wrap;
-  opacity: 0;
-  animation: heroEntrance 0.8s var(--ease-out) 0.4s both;
+@keyframes heroTitlePunch {
+  from { opacity: 0; transform: translateY(12px) scale(0.94); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-.trustItem {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--font-body);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
+.heroInner {
+  position: relative;
+  z-index: 1;
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 clamp(24px, 4vw, 40px) clamp(56px, 8vw, 96px);
+}
+
+.heroEyebrow {
+  font-family: var(--font-accent);
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(250, 248, 244, 0.50);
-}
-
-.trustDot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--amber);
-  flex-shrink: 0;
-  opacity: 0.9;
-}
-
-.trustDivider {
-  width: 1px;
-  height: 14px;
-  background: rgba(250, 248, 244, 0.12);
-  flex-shrink: 0;
+  color: var(--amber);
+  margin-bottom: clamp(18px, 2.5vw, 28px);
+  opacity: 0;
+  animation: heroEntrance 0.6s var(--ease-out) 0.05s both;
 }
 
 .heroTitle {
-  font-family: var(--font-display);
-  font-size: clamp(36px, 4.2vw, 60px);
-  font-weight: 300;
-  line-height: 1.08;
-  letter-spacing: -0.03em;
-  color: var(--white);
-  margin-bottom: clamp(16px, 2vw, 24px);
-  max-width: 600px;
+  margin: 0 0 clamp(22px, 3vw, 34px);
+}
+
+/* Each line/word stages in on its own beat — that cascade is what
+   actually catches the eye on load, more than any single element. */
+.heroTitle > span {
   opacity: 0;
-  animation: heroEntrance 0.9s var(--ease-out) 0.55s both;
+  animation: heroEntrance 0.65s var(--ease-out) both;
+}
+
+.heroTitle > span:nth-child(1) { animation-delay: 0.16s; }
+.heroTitle > span:nth-child(3) { animation-delay: 0.46s; }
+
+.heroTitleLine {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(42px, 6.2vw, 88px);
+  font-weight: 300;
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+/* The one oversized, graphic word — set in the condensed accent
+   typeface rather than just scaling the body font up, so it reads as
+   a deliberate typographic move rather than "big text for emphasis".
+   Punches in with a little scale rather than just fading, since it's
+   the single element doing the most work to catch the eye. */
+.heroTitleAccent {
+  display: block;
+  font-family: var(--font-accent);
+  font-size: clamp(64px, 10vw, 148px);
+  font-weight: 400;
+  line-height: 0.86;
+  color: var(--amber);
+  animation-name: heroTitlePunch;
+  animation-duration: 0.7s;
+  animation-delay: 0.3s;
+  animation-timing-function: var(--ease-out);
+  animation-fill-mode: both;
 }
 
 .heroSub {
-  font-size: clamp(13px, 1.3vw, 15px);
-  line-height: 1.8;
-  color: rgba(250, 248, 244, 0.58);
+  font-size: clamp(15px, 1.3vw, 17px);
+  line-height: 1.7;
+  color: var(--ink-60);
   max-width: 420px;
-  margin-bottom: clamp(32px, 4vw, 48px);
-  font-weight: 300;
-  letter-spacing: 0.01em;
+  margin-bottom: clamp(32px, 4vw, 44px);
+  font-weight: 400;
   opacity: 0;
-  animation: heroEntrance 0.9s var(--ease-out) 0.7s both;
+  animation: heroEntrance 0.7s var(--ease-out) 0.62s both;
 }
 
 .heroCtas {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 20px;
   flex-wrap: wrap;
   opacity: 0;
-  animation: heroEntrance 0.9s var(--ease-out) 0.85s both;
+  animation: heroEntrance 0.7s var(--ease-out) 0.76s both;
 }
 
 .heroCta {
@@ -139,26 +158,23 @@
   align-items: center;
   font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--ink);
   background: var(--amber);
-  padding: 14px 28px;
+  padding: 15px 28px;
   border-radius: 2px;
   border: 1.5px solid var(--amber);
   transition:
     background var(--duration-base) var(--ease-out),
-    border-color var(--duration-base) var(--ease-out),
-    transform var(--duration-base) var(--ease-out),
-    box-shadow var(--duration-base) var(--ease-out);
+    color var(--duration-base) var(--ease-out),
+    transform var(--duration-base) var(--ease-out);
 }
 
 .heroCta:hover {
   background: transparent;
-  border-color: var(--amber);
-  color: var(--amber);
+  color: var(--amber-dark);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(245, 166, 35, 0.2);
 }
 
 .heroCtaOutline {
@@ -166,30 +182,104 @@
   align-items: center;
   font-size: 12px;
   font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: rgba(250, 248, 244, 0.85);
-  padding: 14px 28px;
-  border-radius: 2px;
-  border: 1.5px solid rgba(250, 248, 244, 0.35);
+  letter-spacing: 0.05em;
+  color: var(--ink-60);
+  padding: 15px 4px;
+  border-bottom: 1.5px solid var(--ink-10);
   transition:
     color var(--duration-base) var(--ease-out),
-    border-color var(--duration-base) var(--ease-out),
-    background var(--duration-base) var(--ease-out),
-    transform var(--duration-base) var(--ease-out);
+    border-color var(--duration-base) var(--ease-out);
 }
 
 .heroCtaOutline:hover {
-  color: var(--white);
-  border-color: rgba(250, 248, 244, 0.75);
-  background: rgba(250, 248, 244, 0.08);
-  transform: translateY(-2px);
+  color: var(--ink);
+  border-color: var(--ink-30);
+}
+
+/* Scrolling material ticker — replaces a static subhead sentence with
+   something that moves, doubling as the "what we sell" list. */
+.heroMarquee {
+  position: relative;
+  z-index: 1;
+  border-top: 1px solid var(--ink-10);
+  overflow: hidden;
+  padding: 16px 0;
+  opacity: 0;
+  animation: heroEntrance 0.8s var(--ease-out) 0.95s both;
+}
+
+.heroMarqueeTrack {
+  display: flex;
+  width: max-content;
+  animation: heroMarqueeScroll 26s linear infinite;
+}
+
+@keyframes heroMarqueeScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.heroMarqueeItem {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 40px;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ink-30);
+  white-space: nowrap;
+}
+
+.heroMarqueeDot {
+  color: var(--amber);
+  font-weight: 400;
+  margin-left: 40px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heroMarqueeTrack { animation: none; }
+  .heroSlats::after { animation: none; opacity: 0.5; }
+  .heroEyebrow, .heroTitle > span, .heroTitleAccent, .heroSub, .heroCtas, .heroMarquee {
+    animation: none;
+    opacity: 1;
+  }
 }
 
 /* ── STATS ────────────────────────────────────────── */
 .stats {
   background: var(--white);
   border-bottom: 1px solid var(--ink-10);
+  padding-top: var(--s4);
+}
+
+/* A quiet information band — moved out of the hero, where it was
+   crowding the nav and competing with the headline for attention. */
+.trustBar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  padding-bottom: var(--s4);
+  margin-bottom: var(--s4);
+  border-bottom: 1px solid var(--ink-5);
+}
+
+.trustItem {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ink-30);
+}
+
+.trustDivider {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--ink-10);
+  flex-shrink: 0;
 }
 
 .statsGrid {
@@ -555,6 +645,8 @@
 
 /* ── RESPONSIVE ───────────────────────────────────── */
 @media (max-width: 900px) {
+  .hero { padding-top: 116px; }
+
   .categoriesGrid { gap: 2px; }
   .categoryRow { flex-direction: column; }
   .categoryCard { width: 100% !important; }
@@ -566,64 +658,15 @@
     border-right: none;
     border-bottom: 1px solid var(--ink-10);
   }
-  .trustBar { gap: 12px; }
-  .trustDivider { display: none; }
+  .trustBar { gap: 10px 16px; }
 }
 
 @media (max-width: 600px) {
-  /* Previously: min-height:100vh + align-items:flex-end pinned all the
-     text to the very bottom edge of a full-screen-tall hero. On mobile
-     that reads as "crammed at the bottom" and pushes the CTAs just out
-     of view without scrolling. Centering the content in a slightly
-     shorter section (100svh accounts for the mobile browser's
-     collapsible address bar, unlike 100vh which overshoots) moves
-     everything up and gives it even breathing room top and bottom. */
-  .hero {
-    min-height: 100svh;
-    align-items: center;
-    padding-bottom: 0;
-  }
-  .heroContent { padding: 0 20px; padding-top: 0; }
-
-  /* The tall, narrow mobile crop shows much more of the image's height
-     than desktop does, which brings the TV console back into frame
-     behind the text even with the desktop object-position. Shifting
-     further left keeps the plain wall panelling behind the text. */
-  .heroBgImg { object-position: 5% 32%; }
-
-  /* Was: flex-wrap:wrap with an 8px gap meant for inline spacing —
-     but these phrases are too long to sit side by side on a phone,
-     so they wrapped onto their own lines anyway and just looked like
-     a cramped list. Making it an explicit vertical list with proper
-     spacing fixes the "squished together" look directly. */
-  .trustBar {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-    margin-bottom: 28px;
-  }
-  .trustItem { font-size: 11px; }
-
+  .hero { padding-top: 116px; }
   .heroTitle { margin-bottom: 18px; }
-
-  .heroSub {
-    font-size: 14px;
-    line-height: 1.7;
-    margin-bottom: 32px;
-  }
-
-  .heroOverlay {
-    background:
-      linear-gradient(
-        to bottom,
-        rgba(14, 11, 7, 0.45) 0%,
-        rgba(14, 11, 7, 0.25) 30%,
-        rgba(14, 11, 7, 0.70) 75%,
-        rgba(14, 11, 7, 0.90) 100%
-      );
-  }
-  .heroCtas { flex-direction: column; align-items: flex-start; gap: 12px; }
-  .heroCta, .heroCtaOutline { width: 100%; justify-content: center; }
+  .heroSub { font-size: 14px; line-height: 1.65; margin-bottom: 32px; }
+  .heroCtas { gap: 12px 20px; }
+  .heroMarqueeItem { font-size: 11px; }
   .processGrid { grid-template-columns: 1fr; }
   .statsGrid { grid-template-columns: 1fr 1fr; }
 }

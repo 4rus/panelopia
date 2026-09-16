@@ -5,7 +5,7 @@ const WHATSAPP_NUMBER = "15874335187";
 
 // Edit this anytime — it's just the pre-filled text that shows up in the chat
 const PREFILLED_MESSAGE =
-  "Hi there — I'd love to learn more about Panelopia's wall panels for my space.";
+  "Hi there, I'd love to learn more about Panelopia's wall panels for my space.";
 
 export default function WhatsAppFloat() {
   const href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(

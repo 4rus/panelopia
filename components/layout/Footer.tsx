@@ -35,7 +35,7 @@ export default function Footer() {
           </div>
           <p className={styles.desc}>
             Premium WPC wall panels, UV marble sheets, 3D panels, acoustic finishes,
-            designer wallpapers, and zebra blinds — supplied and installed across Calgary
+            designer wallpapers, and zebra blinds, supplied and installed across Calgary
             and Edmonton, Alberta.
           </p>
           <div className={styles.locations}>

@@ -158,7 +158,7 @@ function DashboardContent() {
       }
     } catch {
       setReplyStatus('error')
-      setReplyNote('Network error — reply was not sent.')
+      setReplyNote('Network error: reply was not sent.')
     }
   }
 

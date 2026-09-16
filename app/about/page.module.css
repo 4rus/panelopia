@@ -1,18 +1,5 @@
 .page {}
 
-.header {
-  background: var(--ink);
-  padding: calc(72px + var(--s10)) 0 var(--s10);
-}
-
-.pageTitle {
-  font-size: clamp(52px, 7vw, 96px);
-  font-weight: 300;
-  color: var(--white);
-  margin: var(--s2) 0;
-  line-height: 1.02;
-}
-
 .mission {
   padding: var(--s12) 0;
   background: var(--cream);

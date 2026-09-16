@@ -395,7 +395,7 @@ export default function WallVisualizer(): JSX.Element {
   }, [stage, roomReady, roomError]);
 
   useEffect(() => {
-    if (roomError) setUploadError("We couldn't load that photo — try a different JPG or PNG.");
+    if (roomError) setUploadError("We couldn't load that photo, try a different JPG or PNG.");
   }, [roomError]);
 
   useEffect(() => () => { if (progressTimerRef.current) clearInterval(progressTimerRef.current); }, []);
@@ -649,7 +649,7 @@ export default function WallVisualizer(): JSX.Element {
   const validateAndLoad = useCallback((file: File | undefined) => {
     if (!file) return;
     if (!file.type.startsWith("image/")) { setUploadError("Please upload an image file (JPG or PNG)."); return; }
-    if (file.size > MAX_UPLOAD_MB * 1024 * 1024) { setUploadError(`That photo is a bit large — please keep it under ${MAX_UPLOAD_MB}MB.`); return; }
+    if (file.size > MAX_UPLOAD_MB * 1024 * 1024) { setUploadError(`That photo is a bit large, please keep it under ${MAX_UPLOAD_MB}MB.`); return; }
     setUploadError(null);
     if (blobUrlRef.current) URL.revokeObjectURL(blobUrlRef.current);
     const url = URL.createObjectURL(file);
@@ -708,7 +708,7 @@ export default function WallVisualizer(): JSX.Element {
     setQuoteStatus("idle");
     setQuoteForm(f => ({
       ...f,
-      message: `Generated via Wall Visualizer — ${activeTexOption.label} (${activeTexOption.category}).`,
+      message: `Generated via Wall Visualizer: ${activeTexOption.label} (${activeTexOption.category}).`,
     }));
     setQuoteOpen(true);
   }, [activeTexOption]);
@@ -781,7 +781,7 @@ export default function WallVisualizer(): JSX.Element {
             <p className={styles.uploadEyebrow}>Step 1 of 3</p>
             <h1 className={styles.uploadHeadline}>Choose<br />your space.</h1>
             <p className={styles.uploadSubline}>
-              Upload a photo of your room and preview any Panelopia finish on your actual wall —
+              Upload a photo of your room and preview any Panelopia finish on your actual wall,
               or start with one of our sample rooms below.
             </p>
 
@@ -803,7 +803,7 @@ export default function WallVisualizer(): JSX.Element {
 
             <div className={styles.uploadHints}>
               <span className={styles.uploadHint}><CheckIcon /> Best results from a straight-on, well-lit shot</span>
-              <span className={styles.uploadHint}><CheckIcon /> Your photo stays in your browser — nothing is uploaded to a server</span>
+              <span className={styles.uploadHint}><CheckIcon /> Your photo stays in your browser, nothing is uploaded to a server</span>
               <span className={styles.uploadHint}><CheckIcon /> You can fine-tune the wall fit in the next step</span>
             </div>
           </div>
@@ -914,7 +914,7 @@ export default function WallVisualizer(): JSX.Element {
             <div className={styles.materialGrid}>
               {visibleTextures.length === 0 && (
                 <p className={styles.noResults}>
-                  {categoryFilter === "Favorites" ? "No favorites yet — tap the star on a swatch to save it." : "No finishes match your search."}
+                  {categoryFilter === "Favorites" ? "No favorites yet, tap the star on a swatch to save it." : "No finishes match your search."}
                 </p>
               )}
               {visibleTextures.map(tex => {
@@ -1129,7 +1129,7 @@ export default function WallVisualizer(): JSX.Element {
         </div>
 
         <p className={styles.fitHint}>
-          Drag the corner handles to fit your wall — arrow keys nudge the selected corner. Switch to Erase to reveal windows, shelves, or fixtures in front of the wall.
+          Drag the corner handles to fit your wall. Arrow keys nudge the selected corner. Switch to Erase to reveal windows, shelves, or fixtures in front of the wall.
         </p>
       </div>
 
@@ -1154,7 +1154,7 @@ export default function WallVisualizer(): JSX.Element {
                 <h2 className={styles.quoteTitle}>Send us your wall visualizer selection</h2>
                 <div className={styles.quoteSelectedRow}>
                   <span className={styles.tbSwatchDot} style={{ backgroundImage: `url(${activeTexOption.src})`, backgroundSize: "cover", width: 22, height: 22 }} />
-                  <span>{activeTexOption.label} — {activeTexOption.category}</span>
+                  <span>{activeTexOption.label} · {activeTexOption.category}</span>
                 </div>
 
                 <div className={styles.quoteRow}>

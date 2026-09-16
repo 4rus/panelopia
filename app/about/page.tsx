@@ -1,10 +1,11 @@
 import styles from './page.module.css'
 import Image from 'next/image'
 import Link from 'next/link'
+import PageHeader from '@/components/layout/PageHeader'
 
 const values = [
   {
-    title: 'Supply & Install — One Team',
+    title: 'Supply & Install, One Team',
     desc: 'We handle everything from material sourcing to final installation. No subcontractors, no handoffs. One team, one invoice.',
     icon: '◈',
   },
@@ -15,12 +16,12 @@ const values = [
   },
   {
     title: 'Alberta-Specific Products',
-    desc: 'Our WPC panels are waterproof and termite-resistant — built to perform in Alberta\'s climate, not just look good in a catalogue.',
+    desc: 'Our WPC panels are waterproof and termite-resistant, built to perform in Alberta\'s climate, not just look good in a catalogue.',
     icon: '◍',
   },
   {
     title: 'Transparent Pricing',
-    desc: 'A clear, itemised quote every time. We tell you exactly what you\'re paying for — materials and labour — before any work begins.',
+    desc: 'A clear, itemised quote every time. We tell you exactly what you\'re paying for (materials and labour) before any work begins.',
     icon: '◎',
   },
 ]
@@ -28,16 +29,10 @@ const values = [
 export default function AboutPage() {
   return (
     <div className={styles.page}>
-      <div className={styles.header}>
-        <div className="container">
-          <p className="eyebrow">Our Story</p>
-          <h1 className={styles.pageTitle}>
-            Built on craft
-            <br />
-            and care.
-          </h1>
-        </div>
-      </div>
+      <PageHeader
+        eyebrow="Our Story"
+        title={<>Built on craft<br />and care.</>}
+      />
 
       {/* Mission */}
       <section className={styles.mission}>
@@ -50,12 +45,12 @@ export default function AboutPage() {
               <p className={styles.missionBody}>
                 Panelopia was founded to fill a real gap in the Alberta market: homeowners and
                 designers could find beautiful materials, but getting them professionally installed
-                meant hiring a separate contractor — with all the coordination, markups, and risk
+                meant hiring a separate contractor, with all the coordination, markups, and risk
                 that entails.
               </p>
               <p className={styles.missionBody}>
                 We changed that. We supply WPC wall panels, UV marble sheets, acoustic panels,
-                and designer wallpapers — and our in-house team installs every single one. Visit
+                and designer wallpapers, and our in-house team installs every single one. Visit
                 us at 101 - 2966 Main ST, Airdrie in Calgary or our Edmonton location in Beaumont.
               </p>
               <div className={styles.missionContact}>
@@ -119,7 +114,7 @@ export default function AboutPage() {
                   101 - 2966 Main St, Airdrie<br />
                   AB T4B 3G4<br />
                 </p>
-                <p className={styles.showroomHours}>By appointment — call 587-433-5187</p>
+                <p className={styles.showroomHours}>By appointment, call 587-433-5187</p>
               </div>
             </div>
 
@@ -139,7 +134,7 @@ export default function AboutPage() {
                   65 St<br />
                   Beaumont, AB T4X 0G7
                 </p>
-                <p className={styles.showroomHours}>By appointment — call 587-433-5187</p>
+                <p className={styles.showroomHours}>By appointment, call 587-433-5187</p>
               </div>
             </div>
           </div>

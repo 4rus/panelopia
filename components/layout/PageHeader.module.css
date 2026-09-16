@@ -1,0 +1,60 @@
+.header {
+  position: relative;
+  background: var(--cream);
+  border-bottom: 1px solid var(--ink-10);
+  overflow: hidden;
+  padding: 152px 0 var(--s8);
+}
+
+/* Same abstract slat texture as the homepage hero — kept as its own
+   copy rather than a shared import, since these two components don't
+   otherwise need to depend on each other. */
+.slats {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      var(--ink-10) 0px, var(--ink-10) 2px,
+      transparent 2px, transparent 30px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(245, 166, 35, 0.10) 0px, rgba(245, 166, 35, 0.10) 1px,
+      transparent 1px, transparent 90px
+    );
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 30%, black 85%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 30%, black 85%, transparent 100%);
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+}
+
+.eyebrow {
+  display: block;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(40px, 5.5vw, 72px);
+  font-weight: 300;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: var(--s2) 0 var(--s3);
+}
+
+.description {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--ink-60);
+  max-width: 460px;
+  margin-bottom: var(--s5);
+}
+
+@media (max-width: 900px) {
+  .header { padding-top: 116px; }
+}

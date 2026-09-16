@@ -1,0 +1,51 @@
+.bar {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 150; /* above page content, below the mobile-menu era z-index this replaces isn't relevant anymore */
+    display: flex;
+    background: rgba(250, 248, 244, 0.96);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-top: 1px solid var(--ink-10);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  .tab {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    padding: 8px 4px 7px;
+    color: var(--ink-30);
+    transition: color 150ms ease;
+  }
+
+  .icon {
+    width: 22px;
+    height: 22px;
+  }
+
+  .icon svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  .active {
+    color: var(--amber-dark);
+  }
+}

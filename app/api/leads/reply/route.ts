@@ -43,7 +43,7 @@ export async function POST(request: Request) {
   const replyTo = replyDomain ? `reply+${leadId}@${replyDomain}` : fromAddress
 
   if (!apiKey || !fromAddress) {
-    emailError = 'RESEND_API_KEY / RESEND_FROM_EMAIL not configured — reply saved but not emailed.'
+    emailError = 'RESEND_API_KEY / RESEND_FROM_EMAIL not configured: reply saved but not emailed.'
   } else {
     try {
       const resend = new Resend(apiKey)

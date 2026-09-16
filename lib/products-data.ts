@@ -123,7 +123,7 @@ export const PRODUCTS: Product[] = [
         tagline: 'Sleek minimalist finish for modern interiors',
         colorNote: 'Black',
         description:
-          "Panelopia's Black WPC Panels offer a sleek, minimalist finish that enhances any modern interior or exterior design. Made from high-quality wood-plastic composite, these panels provide the rich look of wood with added durability and strength. Their smooth black surface creates a bold, timeless appeal — perfect for accent walls, ceilings, office spaces, or commercial projects. Waterproof, termite-resistant, and low-maintenance, Black Regular WPC Panels are an ideal choice for those seeking a stylish, long-lasting, and eco-friendly wall solution.",
+          "Panelopia's Black WPC Panels offer a sleek, minimalist finish that enhances any modern interior or exterior design. Made from high-quality wood-plastic composite, these panels provide the rich look of wood with added durability and strength. Their smooth black surface creates a bold, timeless appeal, perfect for accent walls, ceilings, office spaces, or commercial projects. Waterproof, termite-resistant, and low-maintenance, Black Regular WPC Panels are an ideal choice for those seeking a stylish, long-lasting, and eco-friendly wall solution.",
         images: wImg('Black', 6),
         swatchImage: swatch('Wallpaper', 'Black_Swatch', 'Black'),
       },
@@ -150,7 +150,7 @@ export const PRODUCTS: Product[] = [
         tagline: 'Dark grey brushed texture for contemporary spaces',
         colorNote: 'Dark Grey',
         description:
-          "Panelopia's Dark Grey Brushed WPC Panels bring a sleek, modern look to any interior or exterior space. Crafted from durable wood-plastic composite, these panels feature a brushed texture that adds depth and sophistication while maintaining a natural wood-like finish. The dark grey tone offers a versatile, contemporary aesthetic — perfect for accent walls, TV backdrops, ceilings, or commercial projects. Designed to be waterproof, termite-resistant, and low-maintenance, these panels are as practical as they are stylish, making them an ideal choice for long-lasting, eco-friendly wall solutions.",
+          "Panelopia's Dark Grey Brushed WPC Panels bring a sleek, modern look to any interior or exterior space. Crafted from durable wood-plastic composite, these panels feature a brushed texture that adds depth and sophistication while maintaining a natural wood-like finish. The dark grey tone offers a versatile, contemporary aesthetic, perfect for accent walls, TV backdrops, ceilings, or commercial projects. Designed to be waterproof, termite-resistant, and low-maintenance, these panels are as practical as they are stylish, making them an ideal choice for long-lasting, eco-friendly wall solutions.",
         images: wImg('Grey', 6),
         swatchImage: swatch('Wallpaper', 'Grey_Swatch', 'Grey'),
       },
@@ -159,7 +159,7 @@ export const PRODUCTS: Product[] = [
         tagline: 'Timeless natural walnut tone with wood-like texture',
         colorNote: 'Dark Brown',
         description:
-          "Panelopia's Walnut WPC Panels combine the timeless beauty of natural walnut with the durability of modern wood-plastic composite. Featuring a rich, warm brown tone with wood-like texture, these panels bring elegance and sophistication to any space. Perfect for accent walls, ceilings, TV backdrops, and commercial interiors, they are designed to be waterproof, termite-resistant, and low-maintenance — ensuring long-lasting performance with minimal upkeep. Ideal for creating cozy, stylish, and contemporary environments, Walnut WPC Panels are a versatile choice for both homes and businesses.",
+          "Panelopia's Walnut WPC Panels combine the timeless beauty of natural walnut with the durability of modern wood-plastic composite. Featuring a rich, warm brown tone with wood-like texture, these panels bring elegance and sophistication to any space. Perfect for accent walls, ceilings, TV backdrops, and commercial interiors, they are designed to be waterproof, termite-resistant, and low-maintenance, ensuring long-lasting performance with minimal upkeep. Ideal for creating cozy, stylish, and contemporary environments, Walnut WPC Panels are a versatile choice for both homes and businesses.",
         images: wImg('Walnut', 6),
         swatchImage: swatch('Wallpaper', 'Walnut_Swatch', 'Walnut'),
       },
@@ -168,7 +168,7 @@ export const PRODUCTS: Product[] = [
         tagline: 'Modern minimalist white finish that brightens any space',
         colorNote: 'White',
         description:
-          "Panelopia's White Wall Panels offer a modern, minimalist look that enhances any interior. Crafted with premium materials, they are durable, easy to install, and designed to brighten spaces with a clean, elegant finish — perfect for living rooms, offices, or feature walls.",
+          "Panelopia's White Wall Panels offer a modern, minimalist look that enhances any interior. Crafted with premium materials, they are durable, easy to install, and designed to brighten spaces with a clean, elegant finish, perfect for living rooms, offices, or feature walls.",
         images: wImg('White_Oak', 1),
         swatchImage: swatch('Wallpaper', 'White_Oak_Swatch', 'White Oak'),
       },
@@ -195,7 +195,7 @@ export const PRODUCTS: Product[] = [
         tagline: 'Deep matte black finish with a fine wood-grain texture',
         colorNote: 'Jet Black',
         description:
-          "Panelopia's Jet Black WPC Panels deliver an uncompromising, deep black finish with a fine wood-grain texture that adds subtle dimension without sacrificing the panel's bold, modern character. Crafted from durable wood-plastic composite, they are waterproof, termite-resistant, and low-maintenance — ideal for accent walls, ceilings, TV backdrops, and statement installations across residential and commercial interiors. The rich matte black tone anchors a space and pairs seamlessly with brass, gold, or warm wood accents. A matching L-trim is available for clean, finished edges.",
+          "Panelopia's Jet Black WPC Panels deliver an uncompromising, deep black finish with a fine wood-grain texture that adds subtle dimension without sacrificing the panel's bold, modern character. Crafted from durable wood-plastic composite, they are waterproof, termite-resistant, and low-maintenance, ideal for accent walls, ceilings, TV backdrops, and statement installations across residential and commercial interiors. The rich matte black tone anchors a space and pairs seamlessly with brass, gold, or warm wood accents. A matching L-trim is available for clean, finished edges.",
         images: wImg('Jet_Black', 8),
         swatchImage: swatch('Wallpaper', 'Jet_Black_Swatch', 'Jet Black'),
       },
@@ -275,7 +275,7 @@ export const PRODUCTS: Product[] = [
     name: 'UV Marble Imitation Sheets',
     tagline: 'Marble luxury without the weight.',
     description:
-      'Panelopia UV marble sheets bring a luxurious natural stone look to interiors without the installation weight or maintenance of real marble. Each sheet is waterproof, termite proof, and fire-resistant — engineered for modern feature walls, countertops, and commercial applications across Calgary and Edmonton.',
+      'Panelopia UV marble sheets bring a luxurious natural stone look to interiors without the installation weight or maintenance of real marble. Each sheet is waterproof, termite proof, and fire-resistant, engineered for modern feature walls, countertops, and commercial applications across Calgary and Edmonton.',
     accent: '#3DBFBF',
     features: [
       'UV-protected surface',
@@ -335,7 +335,7 @@ export const PRODUCTS: Product[] = [
         tagline: 'Elegant blue marble with gold mist',
         colorNote: 'White and Grey',
         description:
-          "Awaken your walls with the celestial beauty of Phoenix Dance. Set against a serene light turquoise backdrop, waves of shimmering gold dust sweep across the surface like cosmic trails, evoking the rebirth and brilliance of a rising phoenix. The interplay of colour and texture creates a sense of movement and radiance, transforming any space into a canvas of elegance and wonder. Crafted from high-quality vinyl, Phoenix Dance combines artistic beauty with everyday durability — moisture-resistant, easy to maintain, and timeless in appeal. Perfect for statement walls or luxurious interiors, it captures the magic of cosmic design within your home.",
+          "Awaken your walls with the celestial beauty of Phoenix Dance. Set against a serene light turquoise backdrop, waves of shimmering gold dust sweep across the surface like cosmic trails, evoking the rebirth and brilliance of a rising phoenix. The interplay of colour and texture creates a sense of movement and radiance, transforming any space into a canvas of elegance and wonder. Crafted from high-quality vinyl, Phoenix Dance combines artistic beauty with everyday durability, moisture-resistant, easy to maintain, and timeless in appeal. Perfect for statement walls or luxurious interiors, it captures the magic of cosmic design within your home.",
         images: mImg('Phoenix_Dance', 6),
         swatchImage: swatch('Marble-Slab', 'Phoenix_Dance2', 'Phoenix Dance'),
       },
@@ -371,7 +371,7 @@ export const PRODUCTS: Product[] = [
         tagline: 'Deep emerald and teal marble with copper-gold veining',
         colorNote: 'Emerald, Teal and Copper Gold',
         description:
-          "Make an unmistakable statement with Emerald Ember — a deep teal and emerald slab threaded with warm copper-gold veining that flows across the surface like molten light through stone. Unlike anything else in the collection, this bold, jewel-toned finish turns a single wall into the focal point of a room. Perfect for feature walls, countertops, or luxury interiors looking to stand out, Emerald Ember is crafted with UV-resistant technology for lasting colour and brilliance, bringing dramatic, one-of-a-kind character to any space.",
+          "Make an unmistakable statement with Emerald Ember, a deep teal and emerald slab threaded with warm copper-gold veining that flows across the surface like molten light through stone. Unlike anything else in the collection, this bold, jewel-toned finish turns a single wall into the focal point of a room. Perfect for feature walls, countertops, or luxury interiors looking to stand out, Emerald Ember is crafted with UV-resistant technology for lasting colour and brilliance, bringing dramatic, one-of-a-kind character to any space.",
         images: mImg('Emerald_Ember', 7),
         swatchImage: swatch('Marble-Slab', 'Emerald_Ember_Swatch', 'Emerald Ember'),
       },
@@ -380,7 +380,7 @@ export const PRODUCTS: Product[] = [
         tagline: 'White and grey marble with charcoal storm-cloud patches and gold veins',
         colorNote: 'White, Grey and Gold',
         description:
-          "Storm Gold captures the drama of shifting weather in stone — a white and grey marble base gathers deep charcoal, storm-cloud patches that roll across the surface, laced through with striking gold veins. The result is a slab with real depth and movement, striking enough for a feature wall yet versatile enough for countertops and other statement surfaces. Crafted with UV-resistant technology, Storm Gold holds its contrast and shine over time, bringing bold, atmospheric character to modern interiors.",
+          "Storm Gold captures the drama of shifting weather in stone, a white and grey marble base gathers deep charcoal, storm-cloud patches that roll across the surface, laced through with striking gold veins. The result is a slab with real depth and movement, striking enough for a feature wall yet versatile enough for countertops and other statement surfaces. Crafted with UV-resistant technology, Storm Gold holds its contrast and shine over time, bringing bold, atmospheric character to modern interiors.",
         images: mImg('Storm_Gold', 7),
         swatchImage: swatch('Marble-Slab', 'Storm_Gold_Swatch', 'Storm Gold'),
       },
@@ -406,7 +406,7 @@ export const PRODUCTS: Product[] = [
     name: 'Designer Wallpapers',
     tagline: 'Curated wallcoverings for modern spaces.',
     description:
-      'Panelopia wallpapers are premium PVC wall coverings that bring texture, colour, and ease of installation to homes and commercial interiors. Durable, moisture-resistant, and easy to apply — each roll covers approximately 50 square feet. Suitable for homes, offices, hotels, and restaurants.',
+      'Panelopia wallpapers are premium PVC wall coverings that bring texture, colour, and ease of installation to homes and commercial interiors. Durable, moisture-resistant, and easy to apply, each roll covers approximately 50 square feet. Suitable for homes, offices, hotels, and restaurants.',
     accent: '#3DBFBF',
     features: [
       'High-quality PVC',
@@ -422,7 +422,7 @@ export const PRODUCTS: Product[] = [
       { label: 'Color',        value: 'As Shown' },
       { label: 'Packing',      value: '1 Roll' },
       { label: 'Total Area',   value: 'Approx. 50 Square Feet per Roll applied' },
-      { label: 'Installation', value: 'Applied with Glue — Easy Installation' },
+      { label: 'Installation', value: 'Glue-applied, easy install' },
       { label: 'Application',  value: 'Home Interior Walls, Commercial, Offices, Hotels, Restaurants, Accent Walls, etc.' },
     ],
     variants: [
@@ -430,7 +430,7 @@ export const PRODUCTS: Product[] = [
         label: 'Rockies',
         tagline: 'Slate-etched stone pattern inspired by the Rocky Mountains',
         description:
-          "Inspired by the raw beauty of the Rocky Mountains, the Slate Etched Rockies wallpaper captures the essence of stone cliffs softened by mist and light. Its subtle etched pattern adds depth and dimension, while the light grey, slate-inspired tones bring a refined natural character to your walls. The design strikes the perfect balance between rugged elegance and contemporary style, making it an ideal choice for both modern and classic interiors. Crafted in durable vinyl, this wallpaper is easy to maintain, moisture-resistant, and built to endure — offering a timeless backdrop that echoes the strength and serenity of the Rockies.",
+          "Inspired by the raw beauty of the Rocky Mountains, the Slate Etched Rockies wallpaper captures the essence of stone cliffs softened by mist and light. Its subtle etched pattern adds depth and dimension, while the light grey, slate-inspired tones bring a refined natural character to your walls. The design strikes the perfect balance between rugged elegance and contemporary style, making it an ideal choice for both modern and classic interiors. Crafted in durable vinyl, this wallpaper is easy to maintain, moisture-resistant, and built to endure, offering a timeless backdrop that echoes the strength and serenity of the Rockies.",
         images: wpImg('Rockies', 1),
       },
       {
@@ -444,7 +444,7 @@ export const PRODUCTS: Product[] = [
         label: 'Linen Rockies',
         tagline: 'Bold geometric wood-textured pattern',
         description:
-          'Linen Rockies features a bold geometric pattern with subtle wood-inspired depth — a striking accent wall choice for modern living spaces and commercial interiors.',
+          'Linen Rockies features a bold geometric pattern with subtle wood-inspired depth, a striking accent wall choice for modern living spaces and commercial interiors.',
         images: wpImg('Linen_Rockies', 1),
       },
       {
@@ -458,35 +458,35 @@ export const PRODUCTS: Product[] = [
         label: 'Linen Thar',
         tagline: 'Soft linen-inspired texture with subtle movement',
         description:
-          'Linen Thar creates a calm, modern backdrop with a soft linen texture and subtle depth — perfect for bedrooms, lounges, and hospitality spaces.',
+          'Linen Thar creates a calm, modern backdrop with a soft linen texture and subtle depth, perfect for bedrooms, lounges, and hospitality spaces.',
         images: wpImg('Linen_Thar', 1),
       },
       {
         label: 'Natural Chestnut',
         tagline: 'Organic chestnut wood pattern',
         description:
-          'Natural Chestnut brings a rich, earthy wood grain pattern to walls — warm, tactile, and endlessly versatile for residential and boutique commercial projects.',
+          'Natural Chestnut brings a rich, earthy wood grain pattern to walls, warm, tactile, and endlessly versatile for residential and boutique commercial projects.',
         images: wpImg('Natural_Chestnut', 1),
       },
       {
         label: 'Natural Leaf',
         tagline: 'Subtle leaf-patterned vinyl wall covering',
         description:
-          'Natural Leaf brings a soft organic pattern to interiors with gentle tonal depth — timeless, easy to live with, and beautifully adaptable to any palette.',
+          'Natural Leaf brings a soft organic pattern to interiors with gentle tonal depth, timeless, easy to live with, and beautifully adaptable to any palette.',
         images: wpImg('Natural_Leaf', 1),
       },
       {
         label: 'Pearl Mirage',
         tagline: 'Luminous pearl-toned abstract pattern',
         description:
-          'Pearl Mirage delivers a soft iridescent quality with abstract movement — a sophisticated choice for feature walls in hotels, spas, and upscale residences.',
+          'Pearl Mirage delivers a soft iridescent quality with abstract movement, a sophisticated choice for feature walls in hotels, spas, and upscale residences.',
         images: wpImg('Pearl_Mirage', 1),
       },
       {
         label: 'Woven Charcoal',
         tagline: 'Dark textured wallpaper for moody spaces',
         description:
-          'Woven Charcoal offers a deep, tactile finish that anchors moody interiors with elegant texture — striking in dining rooms, bars, and contemporary offices.',
+          'Woven Charcoal offers a deep, tactile finish that anchors moody interiors with elegant texture, striking in dining rooms, bars, and contemporary offices.',
         images: wpImg('Woven_Charcoal', 1),
       },
     ],
@@ -598,7 +598,7 @@ export const PRODUCTS: Product[] = [
     name: 'Decorative Wall Panels',
     tagline: 'Bold profiles that add glamour to any wall.',
     description:
-      'Panelopia decorative PS panels combine sleek base tones with elegant golden accent strips for a look of modern luxury. Each panel is crafted from durable wood-plastic composite — waterproof, termite proof, and easy to install with clips and screws or Panelopia Glue. Perfect for feature walls, TV backdrops, and commercial interiors.',
+      'Panelopia decorative PS panels combine sleek base tones with elegant golden accent strips for a look of modern luxury. Each panel is crafted from durable wood-plastic composite, waterproof, termite proof, and easy to install with clips and screws or Panelopia Glue. Perfect for feature walls, TV backdrops, and commercial interiors.',
     accent: '#C4A35A',
     features: [
       'Wood Plastic Composite (WPC)',
@@ -640,7 +640,7 @@ export const PRODUCTS: Product[] = [
         tagline: 'Ornate wood-brown panel with gold-trimmed plume motif',
         colorNote: 'Wood Brown & Gold',
         description:
-          "Panelopia's Brown Plume Panel is designed to complement any wall panel collection seamlessly. With its balanced design and neutral finish, it enhances surrounding textures and colours while adding its own subtle charm. Perfect as a connector piece or standalone feature, this panel brings harmony to interiors, making it an ideal choice for tying together diverse styles in both residential and commercial spaces. Durable, easy to install, and timelessly stylish — it's the perfect match for every design. Panel Dimension: 114\" × 12.2\" or 292cm × 31cm | 12 Panels/Box.",
+          "Panelopia's Brown Plume Panel is designed to complement any wall panel collection seamlessly. With its balanced design and neutral finish, it enhances surrounding textures and colours while adding its own subtle charm. Perfect as a connector piece or standalone feature, this panel brings harmony to interiors, making it an ideal choice for tying together diverse styles in both residential and commercial spaces. Durable, easy to install, and timelessly stylish, it's the perfect match for every design. Panel Dimension: 114\" × 12.2\" or 292cm × 31cm | 12 Panels/Box.",
         images: dImg('Brown_Plume', 6),
         swatchImage: swatch('Decorative-Panels', 'Brown_Plume_Swatch', 'Brown Plume'),
       },

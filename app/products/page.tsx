@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import styles from './page.module.css'
 import { PRODUCTS, type Product } from '@/lib/products-data'
+import PageHeader from '@/components/layout/PageHeader'
 
 // ─── LIGHTBOX ────────────────────────────────────────────────────────────────
 
@@ -349,33 +350,28 @@ export default function ProductsPage() {
   return (
     <div className={styles.page}>
 
-      <div className={styles.header}>
-        <div className="container">
-          <p className="eyebrow">What We Offer</p>
-          <h1 className={styles.pageTitle}>Our Collections</h1>
-          <p className={styles.pageDesc}>
-            Three product families. One installation team. Serving Calgary and Edmonton.
-          </p>
-
-          {/* Collection image cards */}
-          <div className={styles.quickNav}>
-            {PRODUCTS.map(p => (
-              <a key={p.id} href={`#${p.id}`} className={styles.quickNavCard}>
-                <span className={styles.quickNavImgWrap}>
-                  <Image
-                    src={p.variants[0].images[0].src}
-                    alt={p.name}
-                    fill
-                    className={styles.quickNavImg}
-                    sizes="140px"
-                  />
-                </span>
-                <span className={styles.quickNavLabel}>{p.name}</span>
-              </a>
-            ))}
-          </div>
+      <PageHeader
+        eyebrow="What We Offer"
+        title="Our Collections"
+        description="Three product families. One installation team. Serving Calgary and Edmonton."
+      >
+        <div className={styles.quickNav}>
+          {PRODUCTS.map(p => (
+            <a key={p.id} href={`#${p.id}`} className={styles.quickNavCard}>
+              <span className={styles.quickNavImgWrap}>
+                <Image
+                  src={p.variants[0].images[0].src}
+                  alt={p.name}
+                  fill
+                  className={styles.quickNavImg}
+                  sizes="140px"
+                />
+              </span>
+              <span className={styles.quickNavLabel}>{p.name}</span>
+            </a>
+          ))}
         </div>
-      </div>
+      </PageHeader>
 
       {PRODUCTS.map((product, i) => (
         <ProductSection key={product.id} product={product} index={i} />
@@ -387,7 +383,7 @@ export default function ProductsPage() {
           <h2 className={styles.ctaTitle}>Not sure what you need?</h2>
           <p className={styles.ctaDesc}>
             Our team will visit your space in Calgary or Edmonton, assess your requirements,
-            and return with a clear quote — at no cost.
+            and return with a clear quote, at no cost.
           </p>
           <div className={styles.ctaActions}>
             <Link href="/contact" className={styles.ctaBtn}>Book a Free Consultation</Link>

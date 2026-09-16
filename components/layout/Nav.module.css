@@ -13,67 +13,13 @@
     box-shadow 400ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* ── TRANSPARENT state (home, above fold) ─────── */
-.transparent {
-  background: transparent;
-}
-
-.transparent .navLink {
-  color: rgba(250, 248, 244, 0.70);
-}
-
-.transparent .logoImgWrap {
-  height: 120px;
-}
-
-.logoText {
-  color: var(--white);
-}
-
-.transparent .bar {
-  background: var(--white);
-}
-
-.transparent .navLink:hover {
-  color: var(--white);
-  background: transparent;
-}
-
-.transparent .navLink:hover::after {
-  transform: scaleX(1);
-  opacity: 1;
-}
-
-/* Scrolled — cream glass */
-.transparent.scrolled {
-  background: rgba(250, 248, 244, 0.94);
-  backdrop-filter: saturate(180%) blur(20px);
-  -webkit-backdrop-filter: saturate(180%) blur(20px);
-  box-shadow: 0 1px 0 rgba(26, 24, 20, 0.07);
-}
-
-.transparent.scrolled .navLink {
-  color: var(--ink-60);
-}
-
 .logoText {
   color: var(--ink);
 }
 
-.transparent.scrolled .bar {
-  background: var(--ink);
-}
-
-.transparent.scrolled .navLink:hover {
-  color: var(--ink);
-  background: transparent;
-}
-
-.transparent.scrolled .navLink:hover::after {
-  background: var(--amber);
-}
-
-/* ── SOLID state (all inner pages) ───────────── */
+/* ── SOLID state (always-on now — the hero is light, not a dark photo,
+   so there's no dark background left for a transparent/white-text nav
+   variant to contrast against) ───────────── */
 .solid {
   background: rgba(250, 248, 244, 0.94);
   backdrop-filter: saturate(180%) blur(20px);
@@ -195,13 +141,7 @@
   align-items: center;
   gap: 12px;
   flex-shrink: 0;
-  position: relative;
-  z-index: 20;         /* keeps the toggle above the overlay */
   justify-self: end;
-}
-
-.menuOpen .bar {
-  background: var(--ink) !important;
 }
 
 /* Get a Quote — amber pill */
@@ -228,181 +168,9 @@
   transform: translateY(-1px);
 }
 
-/* On transparent nav, the CTA border needs to show */
-.transparent:not(.scrolled) .cta {
-  color: var(--ink);
-}
-
-/* ── HAMBURGER ────────────────────────────────── */
-.menuToggle {
-  display: none;
-  flex-direction: column;
-  gap: 5px;
-  padding: 8px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.bar {
-  display: block;
-  width: 22px;
-  height: 1.5px;
-  background: var(--ink);
-  transition:
-    transform 350ms cubic-bezier(0.16, 1, 0.3, 1),
-    opacity 200ms ease;
-  transform-origin: center;
-}
-
-.barOpen1 { transform: translateY(6.5px) rotate(45deg); }
-.barOpen2 { transform: translateY(-6.5px) rotate(-45deg); }
-
-/* ── MOBILE FULL-SCREEN MENU ──────────────────── */
-/* NOTE: this element is now rendered via a React portal directly onto
-   <body> (see Nav.tsx) instead of nested inside <header>. That was the
-   actual bug fix — .header carries backdrop-filter in its .solid and
-   .transparent.scrolled states, and backdrop-filter on an ancestor
-   creates a new containing block for any position:fixed descendant,
-   which was silently shrinking this menu down to the header's own
-   88px height instead of the full viewport. Now that it's a direct
-   child of <body>, its z-index just needs to be high enough to beat
-   any other fixed/floating elements on the page (e.g. a WhatsApp
-   float button), rather than relying on being nested inside .header
-   (z-index 100) — so it's bumped up to 200 here. */
-.mobileMenu {
-  position: fixed;
-  inset: 0;
-  background: var(--cream);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: var(--s8) clamp(24px, 6vw, 56px);
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(-12px);
-  transition:
-    opacity 350ms cubic-bezier(0.16, 1, 0.3, 1),
-    transform 350ms cubic-bezier(0.16, 1, 0.3, 1);
-  z-index: 200;         /* was 10 — now portaled to <body>, must beat other fixed widgets */
-}
-
-.mobileMenuOpen {
-  opacity: 1;
-  pointer-events: all;
-  transform: translateY(0);
-}
-
-/* Close (✕) button inside the mobile menu itself — needed because the
-   menu now sits (z-index 200) above .header (z-index 100), so the
-   header's own hamburger/✕ toggle is covered while the menu is open. */
-.mobileMenuClose {
-  position: absolute;
-  top: clamp(20px, 4vw, 32px);
-  right: clamp(20px, 6vw, 40px);
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  border: none;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.closeBar {
-  position: absolute;
-  width: 22px;
-  height: 1.5px;
-  background: var(--ink);
-  transition:
-    transform 350ms cubic-bezier(0.16, 1, 0.3, 1),
-    background 200ms ease;
-}
-
-/* Closed / resting state — two short parallel lines, like a mini hamburger */
-.closeBar:nth-child(1) { transform: translateY(-4px); }
-.closeBar:nth-child(2) { transform: translateY(4px); }
-
-/* Open state — lines slide together and rotate into an X.
-   Same timing/easing as the header's .barOpen1 / .barOpen2 so the
-   motion feels consistent with the rest of the nav. */
-.mobileMenuOpen .closeBar:nth-child(1) { transform: translateY(0) rotate(45deg); }
-.mobileMenuOpen .closeBar:nth-child(2) { transform: translateY(0) rotate(-45deg); }
-
-.mobileMenuClose:hover .closeBar {
-  background: var(--amber);
-}
-
-.mobileLink {
-  display: flex;
-  align-items: baseline;
-  gap: var(--s2);
-  font-family: var(--font-display);
-  font-size: clamp(34px, 8vw, 52px);
-  font-weight: 300;
-  color: var(--ink);
-  padding: 14px 0;
-  border-bottom: 1px solid var(--ink-10);
-  letter-spacing: -0.02em;
-  transition: color 200ms ease;
-}
-
-.mobileLink:hover {
-  color: var(--amber);
-}
-
-.mobileLinkNum {
-  font-family: var(--font-body);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  color: var(--amber);
-  opacity: 0.8;
-}
-
-.mobileCta {
-  margin-top: var(--s5);
-  display: inline-flex;
-  align-items: center;
-  font-family: var(--font-body);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: var(--ink);
-  background: var(--amber);
-  padding: 14px 32px;
-  border-radius: 2px;
-  align-self: flex-start;
-  transition: background 200ms ease, transform 200ms ease;
-}
-
-.mobileCta:hover {
-  background: var(--amber-dark);
-  transform: translateY(-1px);
-}
-
-
-/* Mobile menu logo */
-.mobileLogo {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: var(--s6);
-  font-family: var(--font-body);
-  font-size: 20px;
-  font-weight: 600;
-  letter-spacing: -0.025em;
-  color: var(--ink);
-}
-
 @media (max-width: 900px) {
-  .nav  { display: none; }
-  .cta  { display: none; }
-  .menuToggle { display: flex; }
+  .nav { display: none; }
+  .cta { display: none; }
 
   .logoImgWrap {
     height: 64px !important;

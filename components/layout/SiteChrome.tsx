@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation'
 import Nav from './Nav'
 import Footer from './Footer'
 import WhatsAppFloat from './WhatsAppFloat'
+import MobileTabBar from './MobileTabBar'
 
 // The marketing Nav/Footer/WhatsApp float don't belong on the dashboard or
 // its login screen — both have their own chrome (or none at all) and
@@ -24,6 +25,7 @@ export default function SiteChrome({ children }: { children: React.ReactNode }) 
       <main>{children}</main>
       <Footer />
       <WhatsAppFloat />
+      <MobileTabBar />
     </>
   )
 }
