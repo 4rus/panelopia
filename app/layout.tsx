@@ -1,8 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import Nav from '@/components/layout/Nav'
-import Footer from '@/components/layout/Footer'
-import WhatsAppFloat from '@/components/layout/WhatsAppFloat'
+import SiteChrome from '@/components/layout/SiteChrome'
 
 export const metadata: Metadata = {
   title: 'Panelopia — Luxury Redefined',
@@ -19,12 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body>
-        <Nav />
-        <main>
-          {children}
-        </main>
-        <Footer />
-        <WhatsAppFloat />
+        <SiteChrome>{children}</SiteChrome>
       </body>
     </html>
   )

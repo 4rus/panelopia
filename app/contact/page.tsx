@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { insertLead } from '@/lib/supabase'
 import styles from './page.module.css'
 
 type FormData = {
@@ -64,25 +65,21 @@ export default function ContactPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!form.city) return
     setStatus('loading')
 
     try {
-      // Supabase insert — replace with actual client
-      // const { error } = await supabase.from('leads').insert([{
-      //   first_name: form.firstName,
-      //   last_name: form.lastName,
-      //   email: form.email,
-      //   phone: form.phone,
-      //   city: form.city,
-      //   product_interest: form.productInterest,
-      //   project_type: form.projectType,
-      //   message: form.message,
-      //   budget: form.budget,
-      //   created_at: new Date().toISOString(),
-      // }])
-
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1200))
+      await insertLead({
+        first_name: form.firstName,
+        last_name: form.lastName,
+        email: form.email,
+        phone: form.phone || null,
+        city: form.city,
+        product_interest: form.productInterest || null,
+        project_type: form.projectType || null,
+        budget: form.budget || null,
+        message: form.message || null,
+      })
       setStatus('success')
     } catch {
       setStatus('error')

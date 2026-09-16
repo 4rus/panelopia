@@ -177,12 +177,6 @@ input, textarea, select {
   to   { transform: translateX(0); opacity: 1; }
 }
 
-/* next/image fill helper */
-.heroBgImg {
-  object-fit: cover;
-  object-position: center 30%;
-}
-
 /* Scrollbar */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--cream-dark); }

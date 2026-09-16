@@ -1,34 +1,22 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState, useCallback, Suspense } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import Image from 'next/image'
+import { createClient } from '@/lib/supabase/browser'
+import type { Lead } from '@/lib/supabase'
 import styles from './page.module.css'
 
-// Mock data — replace with Supabase query:
-// const { data: leads } = await supabase.from('leads').select('*').order('created_at', { ascending: false })
-
-type Lead = {
+type Reply = {
   id: string
-  firstName: string
-  lastName: string
-  email: string
-  phone: string
-  city: string
-  productInterest: string
-  projectType: string
-  budget: string
+  lead_id: string
   message: string
-  status: 'New' | 'Contacted' | 'Quoted' | 'Won' | 'Lost'
-  createdAt: string
+  sent_by: string | null
+  direction: 'outbound' | 'inbound'
+  email_sent: boolean
+  email_error: string | null
+  created_at: string
 }
-
-const MOCK_LEADS: Lead[] = [
-  { id: '1', firstName: 'Sarah', lastName: 'Thornton', email: 'sarah.t@gmail.com', phone: '+1 403 555 0111', city: 'Calgary', productInterest: 'Wall Panels', projectType: 'Residential', budget: '$5,000–$15,000', message: 'Looking for walnut slat panels for living room accent wall.', status: 'New', createdAt: '2026-05-14T10:22:00Z' },
-  { id: '2', firstName: 'Marcus', lastName: 'Okonkwo', email: 'marcus@pivotallaw.ca', phone: '+1 403 555 0222', city: 'Calgary', productInterest: 'Acoustic Panels', projectType: 'Commercial', budget: '$15,000–$50,000', message: 'New office build, need acoustic treatment for 4 meeting rooms.', status: 'Contacted', createdAt: '2026-05-13T14:05:00Z' },
-  { id: '3', firstName: 'Priya', lastName: 'Mehta', email: 'priya.m@live.ca', phone: '+1 780 555 0333', city: 'Edmonton', productInterest: 'Marble Slabs', projectType: 'Residential', budget: '$5,000–$15,000', message: 'Kitchen island and bathroom feature wall.', status: 'Quoted', createdAt: '2026-05-12T09:15:00Z' },
-  { id: '4', firstName: 'James', lastName: 'Whitfield', email: 'j.whitfield@hotelcrestview.com', phone: '+1 403 555 0444', city: 'Calgary', productInterest: 'Multiple / Unsure', projectType: 'Hospitality', budget: '$50,000+', message: 'Full lobby and bar redesign for boutique hotel.', status: 'Won', createdAt: '2026-05-10T16:30:00Z' },
-  { id: '5', firstName: 'Leila', lastName: 'Nazari', email: 'leila@nazariinteriors.com', phone: '+1 780 555 0555', city: 'Edmonton', productInterest: 'Wallpapers', projectType: 'Residential', budget: 'Under $5,000', message: 'Master bedroom wallpaper, mural style preferred.', status: 'New', createdAt: '2026-05-14T08:45:00Z' },
-  { id: '6', firstName: 'Dylan', lastName: 'Rusch', email: 'd.rusch@outlook.com', phone: '+1 403 555 0666', city: 'Calgary', productInterest: 'Wall Panels', projectType: 'Office', budget: '$5,000–$15,000', message: 'Home office makeover, want a professional look.', status: 'Lost', createdAt: '2026-05-08T11:00:00Z' },
-]
 
 const STATUS_COLORS: Record<Lead['status'], string> = {
   New: '#3DBFBF',
@@ -40,10 +28,91 @@ const STATUS_COLORS: Record<Lead['status'], string> = {
 
 const FILTERS: Array<Lead['status'] | 'All'> = ['All', 'New', 'Contacted', 'Quoted', 'Won', 'Lost']
 
-export default function DashboardPage() {
+const formatDate = (iso: string) =>
+  new Date(iso).toLocaleDateString('en-CA', {
+    month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit',
+  })
+
+function DashboardContent() {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const supabase = createClient()
+
+  const [userEmail, setUserEmail] = useState<string | null>(null)
+  const [leads, setLeads] = useState<Lead[]>([])
+  const [loading, setLoading] = useState(true)
+  const [loadError, setLoadError] = useState<string | null>(null)
   const [filter, setFilter] = useState<Lead['status'] | 'All'>('All')
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null)
-  const [leads, setLeads] = useState<Lead[]>(MOCK_LEADS)
+  const [deepLinkApplied, setDeepLinkApplied] = useState(false)
+
+  const [replies, setReplies] = useState<Reply[]>([])
+  const [replyText, setReplyText] = useState('')
+  const [replyStatus, setReplyStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
+  const [replyNote, setReplyNote] = useState<string | null>(null)
+
+  const loadLeads = useCallback(async () => {
+    setLoading(true)
+    const { data, error } = await supabase
+      .from('leads')
+      .select('*')
+      .order('created_at', { ascending: false })
+
+    if (error) {
+      setLoadError(error.message)
+    } else {
+      setLoadError(null)
+      setLeads(data as Lead[])
+    }
+    setLoading(false)
+  }, [supabase])
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => setUserEmail(data.user?.email ?? null))
+    loadLeads()
+  }, [supabase, loadLeads])
+
+  const loadReplies = useCallback(async (leadId: string) => {
+    const { data, error } = await supabase
+      .from('lead_replies')
+      .select('*')
+      .eq('lead_id', leadId)
+      .order('created_at', { ascending: true })
+
+    if (!error) setReplies(data as Reply[])
+  }, [supabase])
+
+  const openLead = (lead: Lead) => {
+    if (selectedLead?.id === lead.id) {
+      setSelectedLead(null)
+      return
+    }
+    setSelectedLead(lead)
+    setReplyText('')
+    setReplyStatus('idle')
+    setReplyNote(null)
+    loadReplies(lead.id)
+
+    // Clear the "customer replied" indicator now that someone's looking at it.
+    if (lead.needs_attention) {
+      setLeads(prev => prev.map(l => l.id === lead.id ? { ...l, needs_attention: false } : l))
+      supabase.from('leads').update({ needs_attention: false }).eq('id', lead.id)
+    }
+  }
+
+  // Supports links like /dashboard?lead=<id> — used by the "customer
+  // replied" notification email so clicking it jumps straight to the
+  // right lead instead of just landing on the general list.
+  useEffect(() => {
+    if (deepLinkApplied || loading || leads.length === 0) return
+    const leadId = searchParams.get('lead')
+    if (leadId) {
+      const match = leads.find(l => l.id === leadId)
+      if (match) openLead(match)
+    }
+    setDeepLinkApplied(true)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [leads, loading, deepLinkApplied, searchParams])
 
   const filtered = filter === 'All' ? leads : leads.filter(l => l.status === filter)
 
@@ -54,15 +123,49 @@ export default function DashboardPage() {
     won: leads.filter(l => l.status === 'Won').length,
   }
 
-  const updateStatus = (id: string, status: Lead['status']) => {
+  const updateStatus = async (id: string, status: Lead['status']) => {
     setLeads(prev => prev.map(l => l.id === id ? { ...l, status } : l))
     if (selectedLead?.id === id) setSelectedLead(prev => prev ? { ...prev, status } : null)
+    await supabase.from('leads').update({ status }).eq('id', id)
   }
 
-  const formatDate = (iso: string) => {
-    return new Date(iso).toLocaleDateString('en-CA', {
-      month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit'
-    })
+  const sendReply = async () => {
+    if (!selectedLead || !replyText.trim()) return
+    setReplyStatus('sending')
+    setReplyNote(null)
+
+    try {
+      const res = await fetch('/api/leads/reply', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ leadId: selectedLead.id, message: replyText }),
+      })
+      const result = await res.json()
+
+      if (!res.ok) {
+        setReplyStatus('error')
+        setReplyNote(result.error || 'Failed to send reply.')
+        return
+      }
+
+      setReplyStatus('sent')
+      setReplyNote(result.emailSent ? null : result.emailError)
+      setReplyText('')
+      await loadReplies(selectedLead.id)
+      if (selectedLead.status === 'New') {
+        setLeads(prev => prev.map(l => l.id === selectedLead.id ? { ...l, status: 'Contacted' } : l))
+        setSelectedLead(prev => prev ? { ...prev, status: 'Contacted' } : null)
+      }
+    } catch {
+      setReplyStatus('error')
+      setReplyNote('Network error — reply was not sent.')
+    }
+  }
+
+  const signOut = async () => {
+    await supabase.auth.signOut()
+    router.push('/login')
+    router.refresh()
   }
 
   return (
@@ -70,44 +173,20 @@ export default function DashboardPage() {
       {/* Top bar */}
       <div className={styles.topbar}>
         <div className={styles.topbarLeft}>
-          <svg width="24" height="24" viewBox="0 0 100 110" fill="none" aria-hidden="true">
-            <rect x="8" y="0" width="22" height="110" fill="#F5A623"/>
-            <path d="M8 0 H55 A37 37 0 0 1 55 74 H30" fill="#F5A623"/>
-            <polygon points="30,22 52,32 52,58 30,46" fill="white"/>
-            <polygon points="52,32 64,22 64,48 52,58" fill="#E8522A"/>
-          </svg>
-          <span className={styles.topbarTitle}>Panelopia CRM</span>
+          <Image src="/official_logo.png" alt="Panelopia" width={120} height={50} className={styles.topbarLogo} priority />
         </div>
         <div className={styles.topbarRight}>
-          <span className={styles.topbarUser}>Admin</span>
+          {userEmail && <span className={styles.topbarUser}>{userEmail}</span>}
           <a href="/" className={styles.topbarSite}>View Site →</a>
+          <button className={styles.topbarSignout} onClick={signOut}>Sign out</button>
         </div>
       </div>
 
       <div className={styles.layout}>
-        {/* Sidebar nav */}
-        <aside className={styles.sidebar}>
-          <nav className={styles.sidenav}>
-            {[
-              { label: 'Leads', icon: '◈', active: true },
-              { label: 'Clients', icon: '◉', active: false },
-              { label: 'Projects', icon: '◍', active: false },
-              { label: 'Analytics', icon: '◎', active: false },
-            ].map(item => (
-              <button
-                key={item.label}
-                className={`${styles.navItem} ${item.active ? styles.navItemActive : ''}`}
-              >
-                <span className={styles.navIcon}>{item.icon}</span>
-                {item.label}
-              </button>
-            ))}
-          </nav>
-        </aside>
-
         {/* Main content */}
         <main className={styles.main}>
           <div className={styles.mainHeader}>
+            <p className="eyebrow">Dashboard</p>
             <h1 className={styles.mainTitle}>Lead Management</h1>
             <p className={styles.mainSub}>All enquiries submitted via the website</p>
           </div>
@@ -147,65 +226,70 @@ export default function DashboardPage() {
             ))}
           </div>
 
-          {/* Table */}
-          <div className={styles.tableWrapper}>
-            <table className={styles.table}>
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Contact</th>
-                  <th>City</th>
-                  <th>Product</th>
-                  <th>Budget</th>
-                  <th>Status</th>
-                  <th>Received</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filtered.map(lead => (
-                  <tr
-                    key={lead.id}
-                    className={`${styles.tableRow} ${selectedLead?.id === lead.id ? styles.tableRowSelected : ''}`}
-                    onClick={() => setSelectedLead(selectedLead?.id === lead.id ? null : lead)}
-                  >
-                    <td className={styles.tdName}>
-                      <div className={styles.avatar}>
-                        {lead.firstName[0]}{lead.lastName[0]}
-                      </div>
-                      <span>{lead.firstName} {lead.lastName}</span>
-                    </td>
-                    <td className={styles.tdContact}>
-                      <div>{lead.email}</div>
-                      <div className={styles.phone}>{lead.phone}</div>
-                    </td>
-                    <td>{lead.city}</td>
-                    <td>{lead.productInterest}</td>
-                    <td>{lead.budget}</td>
-                    <td>
+          {loadError && (
+            <div className={styles.empty}>
+              Couldn&apos;t load leads: {loadError}. Check your Supabase env vars are set.
+            </div>
+          )}
+
+          {!loadError && loading && (
+            <div className={styles.empty}>Loading leads…</div>
+          )}
+
+          {/* Lead cards */}
+          {!loading && !loadError && (
+            <div className={styles.leadList}>
+              {filtered.map(lead => (
+                <button
+                  key={lead.id}
+                  className={`${styles.leadCard} ${selectedLead?.id === lead.id ? styles.leadCardSelected : ''}`}
+                  onClick={() => openLead(lead)}
+                >
+                  <div className={styles.avatarWrap}>
+                    <div className={styles.avatar}>
+                      {lead.first_name[0]}{lead.last_name[0]}
+                    </div>
+                    {lead.needs_attention && <span className={styles.unreadDot} title="Customer replied" />}
+                  </div>
+
+                  <div className={styles.leadMain}>
+                    <div className={styles.leadTopRow}>
+                      <span className={styles.leadName}>{lead.first_name} {lead.last_name}</span>
+                      {lead.needs_attention && <span className={styles.unreadTag}>New reply</span>}
                       <span
                         className={styles.statusBadge}
                         style={{ color: STATUS_COLORS[lead.status], borderColor: STATUS_COLORS[lead.status] + '33', background: STATUS_COLORS[lead.status] + '12' }}
                       >
                         {lead.status}
                       </span>
-                    </td>
-                    <td className={styles.tdDate}>{formatDate(lead.createdAt)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                    </div>
+                    <div className={styles.leadMeta}>
+                      <span>{lead.email}</span>
+                      {lead.phone && <span>{lead.phone}</span>}
+                    </div>
+                    <div className={styles.leadTags}>
+                      {lead.city && <span className={styles.leadTag}>{lead.city}</span>}
+                      {lead.product_interest && <span className={styles.leadTag}>{lead.product_interest}</span>}
+                      {lead.budget && <span className={styles.leadTag}>{lead.budget}</span>}
+                    </div>
+                  </div>
 
-            {filtered.length === 0 && (
-              <div className={styles.empty}>No leads with status &ldquo;{filter}&rdquo;</div>
-            )}
-          </div>
+                  <span className={styles.leadDate}>{formatDate(lead.created_at)}</span>
+                </button>
+              ))}
+
+              {filtered.length === 0 && (
+                <div className={styles.empty}>No leads with status &ldquo;{filter}&rdquo;</div>
+              )}
+            </div>
+          )}
         </main>
 
         {/* Lead detail panel */}
         {selectedLead && (
           <aside className={styles.detailPanel}>
             <div className={styles.detailHeader}>
-              <h2 className={styles.detailName}>{selectedLead.firstName} {selectedLead.lastName}</h2>
+              <h2 className={styles.detailName}>{selectedLead.first_name} {selectedLead.last_name}</h2>
               <button className={styles.detailClose} onClick={() => setSelectedLead(null)} aria-label="Close">✕</button>
             </div>
 
@@ -228,10 +312,10 @@ export default function DashboardPage() {
                 { label: 'Email', value: selectedLead.email },
                 { label: 'Phone', value: selectedLead.phone },
                 { label: 'City', value: selectedLead.city },
-                { label: 'Product', value: selectedLead.productInterest },
-                { label: 'Project Type', value: selectedLead.projectType },
+                { label: 'Product', value: selectedLead.product_interest },
+                { label: 'Project Type', value: selectedLead.project_type },
                 { label: 'Budget', value: selectedLead.budget },
-                { label: 'Received', value: formatDate(selectedLead.createdAt) },
+                { label: 'Received', value: formatDate(selectedLead.created_at) },
               ].map(field => (
                 <div key={field.label} className={styles.detailField}>
                   <p className={styles.detailLabel}>{field.label}</p>
@@ -245,17 +329,74 @@ export default function DashboardPage() {
               </div>
 
               <div className={styles.detailActions}>
-                <a href={`mailto:${selectedLead.email}`} className={styles.actionBtn}>
-                  Send Email
-                </a>
                 <a href={`tel:${selectedLead.phone}`} className={styles.actionBtnSec}>
                   Call
                 </a>
+              </div>
+
+              {/* Reply thread */}
+              <div className={styles.replySection}>
+                <p className={styles.detailLabel}>Replies</p>
+
+                {replies.length === 0 && (
+                  <p className={styles.replyEmpty}>No replies sent yet.</p>
+                )}
+
+                {replies.map(r => (
+                  <div
+                    key={r.id}
+                    className={`${styles.replyItem} ${r.direction === 'inbound' ? styles.replyItemInbound : ''}`}
+                  >
+                    <p className={styles.replyMeta}>
+                      {r.direction === 'inbound'
+                        ? `${selectedLead.first_name} replied`
+                        : (r.sent_by || 'You')}
+                      {' · '}{formatDate(r.created_at)}
+                      {r.direction === 'outbound' && !r.email_sent && (
+                        <span className={styles.replyWarn}> · not emailed</span>
+                      )}
+                    </p>
+                    <p className={styles.replyText}>{r.message}</p>
+                  </div>
+                ))}
+
+                <textarea
+                  className={styles.replyInput}
+                  placeholder={`Reply to ${selectedLead.first_name}…`}
+                  value={replyText}
+                  onChange={(e) => setReplyText(e.target.value)}
+                  rows={4}
+                />
+
+                {replyStatus === 'sent' && !replyNote && (
+                  <p className={styles.replySuccess}>Reply sent.</p>
+                )}
+                {replyNote && (
+                  <p className={replyStatus === 'error' ? styles.replyErrorText : styles.replyWarnText}>
+                    {replyNote}
+                  </p>
+                )}
+
+                <button
+                  className={styles.actionBtn}
+                  onClick={sendReply}
+                  disabled={replyStatus === 'sending' || !replyText.trim()}
+                >
+                  {replyStatus === 'sending' ? 'Sending…' : 'Send Reply'}
+                </button>
               </div>
             </div>
           </aside>
         )}
       </div>
     </div>
+  )
+}
+
+export default function DashboardPage() {
+  return (
+    <Suspense fallback={null}>
+      <DashboardContent />
+    </Suspense>
   )
 }

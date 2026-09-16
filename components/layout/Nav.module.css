@@ -22,20 +22,8 @@
   color: rgba(250, 248, 244, 0.70);
 }
 
-.transparent 
-.logoImgWrap {
-  display: flex;
-  align-items: center;
-  flex-shrink: 0;
+.transparent .logoImgWrap {
   height: 120px;
-}
-
-/* Constrain image logos to a sensible nav height */
-.logoImg {
-  object-fit: contain;
-  display: block;
-  height: 100%;
-  width: auto;
 }
 
 .logoText {
@@ -66,20 +54,6 @@
 
 .transparent.scrolled .navLink {
   color: var(--ink-60);
-}
-
-.transparent.scrolled 
-.logoImgWrap {
-  display: flex;
-  align-items: center;
-  flex-shrink: 0;
-  height: 100px;
-}
-
-/* Constrain image logos to a sensible nav height */
-.logoImg {
-  object-fit: contain;
-  display: block;
 }
 
 .logoText {
@@ -429,9 +403,7 @@
   .nav  { display: none; }
   .cta  { display: none; }
   .menuToggle { display: flex; }
-}
 
-@media (max-width: 900px) {
   .logoImgWrap {
     height: 64px !important;
   }

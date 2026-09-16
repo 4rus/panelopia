@@ -15,34 +15,19 @@ const links = [
   { href: '/contact',    label: 'Contact' },
 ]
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// LOGO CONFIGURATION — edit this one object only
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// Header + mobile menu both render this. useSvgFallback keeps the inline
+// P-mark available as a backup if we ever need to swap logo files again.
 const LOGO = {
-  // ── Option A: use an image file ──────────────────
-  // 1. Drop your logo file into /public/  (e.g. logo.png or logo.svg)
-  // 2. Set imageSrc to the filename:       '/logo.png'
-  // 3. Set imageWidth / imageHeight to match your logo's natural proportions
-  // 4. Set useSvgFallback to false
-  //
-  imageSrc:       '/official_logo.png',       // ← use the official PNG logo file
-  imageWidth:     302,               // set to the logo file's typical width
-  imageHeight:    126,                // set to the logo file's typical height  
+  imageSrc:       '/official_logo.png',
+  imageWidth:     302,
+  imageHeight:    126,
   imageAlt:       'Panelopia logo',
-  quality:        100,               // set to 100 for best quality (especially for PNG logos)
-
-  // ── Option B: use the built-in SVG P-mark ────────
-  // Set useSvgFallback: true  to use the inline SVG instead of an image file.
-  // Useful while you don't have the final logo file ready.
-  //
-  useSvgFallback: false,             // ← SET TO false once you have your logo file
-
-  // ── Show/hide the "Panelopia" text beside the logo
+  quality:        100,
+  useSvgFallback: false,
   showWordmark:   false,
 }
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-/** Built-in SVG P-mark — used when useSvgFallback = true */
+/** Inline P-mark fallback, used when useSvgFallback is true. */
 function PMarkSVG({ size = 30 }: { size?: number }) {
   return (
     <svg
