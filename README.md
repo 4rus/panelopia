@@ -1,7 +1,5 @@
 # Panelopia
 
-Panelopia is a modern Next.js website built for a premium wall panel business serving Calgary and Edmonton, Alberta. The app combines marketing pages, product listings, a visualizer promo, and a CRM-style dashboard prototype.
-
 ## What this project includes
 
 - **Next.js 14 App Router** with server-rendered layouts and metadata
